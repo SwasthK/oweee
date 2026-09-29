@@ -1,0 +1,102 @@
+declare module "@duo-icons/react" {
+  import * as React from "react"
+
+  export interface IconProps extends React.SVGProps<SVGSVGElement> {
+    size?: number | string
+    className?: string
+  }
+
+  export type DuoIcon = React.FC<IconProps>
+
+  export const AddCircle: DuoIcon
+  export const Airplay: DuoIcon
+  export const AlertOctagon: DuoIcon
+  export const AlertTriangle: DuoIcon
+  export const AlignBottom: DuoIcon
+  export const AlignCenter: DuoIcon
+  export const Android: DuoIcon
+  export const App: DuoIcon
+  export const AppDots: DuoIcon
+  export const Apple: DuoIcon
+  export const Approved: DuoIcon
+  export const Appstore: DuoIcon
+  export const Award: DuoIcon
+  export const BabyCarriage: DuoIcon
+  export const Bank: DuoIcon
+  export const Battery: DuoIcon
+  export const Bell: DuoIcon
+  export const BellBadge: DuoIcon
+  export const Book: DuoIcon
+  export const Book2: DuoIcon
+  export const Book3: DuoIcon
+  export const Bookmark: DuoIcon
+  export const Box: DuoIcon
+  export const Box2: DuoIcon
+  export const Bread: DuoIcon
+  export const Bridge: DuoIcon
+  export const Briefcase: DuoIcon
+  export const Brush: DuoIcon
+  export const Brush2: DuoIcon
+  export const Bug: DuoIcon
+  export const Building: DuoIcon
+  export const Bus: DuoIcon
+  export const Cake: DuoIcon
+  export const Calendar: DuoIcon
+  export const Camera: DuoIcon
+  export const CameraSquare: DuoIcon
+  export const Campground: DuoIcon
+  export const Candle: DuoIcon
+  export const Car: DuoIcon
+  export const Certificate: DuoIcon
+  export const ChartPie: DuoIcon
+  export const CheckCircle: DuoIcon
+  export const Chip: DuoIcon
+  export const Clapperboard: DuoIcon
+  export const Clipboard: DuoIcon
+  export const Clock: DuoIcon
+  export const CloudLightning: DuoIcon
+  export const CloudSnow: DuoIcon
+  export const CoinStack: DuoIcon
+  export const Compass: DuoIcon
+  export const ComputerCamera: DuoIcon
+  export const ComputerCameraOff: DuoIcon
+  export const Confetti: DuoIcon
+  export const CreditCard: DuoIcon
+  export const CurrencyEuro: DuoIcon
+  export const Dashboard: DuoIcon
+  export const Discount: DuoIcon
+  export const Disk: DuoIcon
+  export const File: DuoIcon
+  export const Fire: DuoIcon
+  export const FolderOpen: DuoIcon
+  export const FolderUpload: DuoIcon
+  export const GTranslate: DuoIcon
+  export const IdCard: DuoIcon
+  export const Info: DuoIcon
+  export const Lamp: DuoIcon
+  export const Lamp2: DuoIcon
+  export const Location: DuoIcon
+  export const Marker: DuoIcon
+  export const Menu: DuoIcon
+  export const Message: DuoIcon
+  export const Message2: DuoIcon
+  export const Message3: DuoIcon
+  export const Moon2: DuoIcon
+  export const MoonStars: DuoIcon
+  export const Palette: DuoIcon
+  export const Rocket: DuoIcon
+  export const Settings: DuoIcon
+  export const ShoppingBag: DuoIcon
+  export const Slideshow: DuoIcon
+  export const Smartphone: DuoIcon
+  export const SmartphoneVibration: DuoIcon
+  export const Smartwatch: DuoIcon
+  export const Sun: DuoIcon
+  export const Target: DuoIcon
+  export const Toggle: DuoIcon
+  export const Translation: DuoIcon
+  export const UploadFile: DuoIcon
+  export const User: DuoIcon
+  export const UserCard: DuoIcon
+  export const World: DuoIcon
+}

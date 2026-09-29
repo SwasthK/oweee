@@ -7,6 +7,24 @@ function ThemeProvider({
   children,
   ...props
 }: React.ComponentProps<typeof NextThemesProvider>) {
+  React.useEffect(() => {
+    if (process.env.NODE_ENV === "development") {
+      const origError = console.error
+      console.error = (...args: unknown[]) => {
+        if (
+          typeof args[0] === "string" &&
+          args[0].includes("Encountered a script tag while rendering React component")
+        ) {
+          return
+        }
+        origError.apply(console, args)
+      }
+      return () => {
+        console.error = origError
+      }
+    }
+  }, [])
+
   return (
     <NextThemesProvider
       attribute="class"
