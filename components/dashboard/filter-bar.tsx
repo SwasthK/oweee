@@ -57,7 +57,7 @@ export function FilterBar({
               type="button"
               onClick={() => onStatusChange(opt.value)}
               className={cn(
-                "flex items-center gap-1.5 rounded-md px-2.5 py-1 text-xs font-medium whitespace-nowrap transition-all select-none",
+                "flex cursor-pointer items-center gap-1.5 rounded-md px-2.5 py-1 text-xs font-medium whitespace-nowrap transition-all select-none",
                 isActive
                   ? "border border-border/60 bg-background text-foreground shadow-2xs"
                   : "text-muted-foreground hover:bg-background/40 hover:text-foreground"

@@ -331,7 +331,7 @@ export function LendDetailView({ lend }: LendDetailViewProps) {
                   <button
                     type="button"
                     onClick={handleCopyLink}
-                    className="flex w-full items-center justify-between rounded-md border border-border/60 bg-muted/30 px-2 py-1.5 text-left text-[11px] text-muted-foreground transition-colors hover:bg-muted/60"
+                    className="flex w-full cursor-pointer items-center justify-between rounded-md border border-border/60 bg-muted/30 px-2 py-1.5 text-left text-[11px] text-muted-foreground transition-colors hover:bg-muted/60"
                   >
                     <span className="truncate">
                       /share/{lend.shareToken.slice(0, 12)}...
