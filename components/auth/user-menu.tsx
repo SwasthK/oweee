@@ -76,16 +76,18 @@ export function UserMenu() {
       />
 
       <DropdownMenuContent align="end" className="w-56 p-1.5 shadow-xl">
-        <DropdownMenuLabel className="px-2 py-1.5">
-          <div className="flex flex-col space-y-0.5">
-            <p className="text-xs font-semibold text-foreground">
-              {session.user.name}
-            </p>
-            <p className="text-[11px] text-muted-foreground truncate">
-              {session.user.email}
-            </p>
-          </div>
-        </DropdownMenuLabel>
+        <DropdownMenuGroup>
+          <DropdownMenuLabel className="px-2 py-1.5">
+            <div className="flex flex-col space-y-0.5">
+              <p className="text-xs font-semibold text-foreground">
+                {session.user.name}
+              </p>
+              <p className="text-[11px] text-muted-foreground truncate">
+                {session.user.email}
+              </p>
+            </div>
+          </DropdownMenuLabel>
+        </DropdownMenuGroup>
 
         <DropdownMenuSeparator className="my-1" />
 

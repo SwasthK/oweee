@@ -49,6 +49,7 @@ export default async function HomePage() {
                   alt="Oweee mascot"
                   width={68}
                   height={68}
+                  style={{ width: "auto", height: "auto" }}
                   className="object-contain"
                   priority
                 />

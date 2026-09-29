@@ -39,6 +39,7 @@ export function Logo({
           alt="Oweee"
           width={current.img}
           height={current.img}
+          style={{ width: "auto", height: "auto" }}
           className="object-contain"
           priority
         />
