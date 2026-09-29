@@ -1,0 +1,269 @@
+"use client"
+
+import * as React from "react"
+import { useRouter } from "next/navigation"
+import { createLendAction } from "@/lib/actions/lends"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
+import { AddCircle, AlertTriangle } from "@/components/ui/icons"
+
+interface LendFormDialogProps {
+  children?: React.ReactNode
+}
+
+export function LendFormDialog({ children }: LendFormDialogProps) {
+  const router = useRouter()
+  const [open, setOpen] = React.useState(false)
+  const [loading, setLoading] = React.useState(false)
+  const [error, setError] = React.useState<string | null>(null)
+
+  const [borrowerName, setBorrowerName] = React.useState("")
+  const [borrowerContact, setBorrowerContact] = React.useState("")
+  const [amount, setAmount] = React.useState("")
+  const [currency, setCurrency] = React.useState("USD")
+  const [lentAt, setLentAt] = React.useState(new Date().toISOString().split("T")[0])
+  const [dueDate, setDueDate] = React.useState("")
+  const [notes, setNotes] = React.useState("")
+  const [isPublic, setIsPublic] = React.useState(false)
+
+  const resetForm = () => {
+    setBorrowerName("")
+    setBorrowerContact("")
+    setAmount("")
+    setCurrency("USD")
+    setLentAt(new Date().toISOString().split("T")[0])
+    setDueDate("")
+    setNotes("")
+    setIsPublic(false)
+    setError(null)
+  }
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setError(null)
+
+    const numAmount = parseFloat(amount)
+    if (isNaN(numAmount) || numAmount <= 0) {
+      setError("Please enter a valid amount greater than zero.")
+      return
+    }
+
+    if (!borrowerName.trim()) {
+      setError("Please enter your friend's name.")
+      return
+    }
+
+    setLoading(true)
+
+    try {
+      const res = await createLendAction({
+        borrowerName: borrowerName.trim(),
+        borrowerContact: borrowerContact.trim() || undefined,
+        amount: numAmount,
+        currency,
+        lentAt: new Date(lentAt),
+        dueDate: dueDate ? new Date(dueDate) : undefined,
+        notes: notes.trim() || undefined,
+        isPublic,
+      })
+
+      if (res.success) {
+        resetForm()
+        setOpen(false)
+        router.refresh()
+      }
+    } catch (err: any) {
+      setError(err?.message || "Failed to create lend. Please try again.")
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  return (
+    <Dialog open={open} onOpenChange={(val) => { setOpen(val); if (!val) resetForm(); }}>
+      <DialogTrigger
+        render={
+          children ? (
+            (children as any)
+          ) : (
+            <Button size="sm" className="gap-1.5 shadow-xs">
+              <AddCircle className="size-4" />
+              <span>New Lend</span>
+            </Button>
+          )
+        }
+      />
+
+      <DialogContent className="max-w-md border-border/80 bg-card p-6 shadow-lg sm:rounded-2xl">
+        <DialogHeader>
+          <DialogTitle className="text-lg tracking-tight font-heading">
+            Record New Lend
+          </DialogTitle>
+          <DialogDescription className="text-xs text-muted-foreground">
+            Track money lent to a friend with optional due dates and public sharing.
+          </DialogDescription>
+        </DialogHeader>
+
+        <form onSubmit={handleSubmit} className="space-y-4 pt-2">
+          {error && (
+            <div className="flex items-center gap-2 rounded-lg border border-destructive/20 bg-destructive/10 p-2.5 text-xs text-destructive">
+              <AlertTriangle className="size-4 shrink-0" />
+              <span>{error}</span>
+            </div>
+          )}
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div className="space-y-1.5 sm:col-span-2">
+              <Label htmlFor="borrowerName" className="text-xs font-medium">
+                Friend&apos;s Name *
+              </Label>
+              <Input
+                id="borrowerName"
+                placeholder="e.g. John Doe"
+                required
+                value={borrowerName}
+                onChange={(e) => setBorrowerName(e.target.value)}
+                disabled={loading}
+                className="text-xs"
+              />
+            </div>
+
+            <div className="space-y-1.5">
+              <Label htmlFor="amount" className="text-xs font-medium">
+                Amount *
+              </Label>
+              <div className="relative">
+                <Input
+                  id="amount"
+                  type="number"
+                  step="0.01"
+                  min="0.01"
+                  placeholder="0.00"
+                  required
+                  value={amount}
+                  onChange={(e) => setAmount(e.target.value)}
+                  disabled={loading}
+                  className="text-xs pl-7"
+                />
+                <span className="absolute left-2.5 top-1/2 -translate-y-1/2 text-xs text-muted-foreground">
+                  $
+                </span>
+              </div>
+            </div>
+
+            <div className="space-y-1.5">
+              <Label htmlFor="currency" className="text-xs font-medium">
+                Currency
+              </Label>
+              <Input
+                id="currency"
+                value={currency}
+                onChange={(e) => setCurrency(e.target.value.toUpperCase())}
+                disabled={loading}
+                placeholder="USD"
+                maxLength={4}
+                className="text-xs uppercase"
+              />
+            </div>
+
+            <div className="space-y-1.5">
+              <Label htmlFor="lentAt" className="text-xs font-medium">
+                Date Lent
+              </Label>
+              <Input
+                id="lentAt"
+                type="date"
+                value={lentAt}
+                onChange={(e) => setLentAt(e.target.value)}
+                disabled={loading}
+                className="text-xs"
+              />
+            </div>
+
+            <div className="space-y-1.5">
+              <Label htmlFor="dueDate" className="text-xs font-medium">
+                Due Date (Optional)
+              </Label>
+              <Input
+                id="dueDate"
+                type="date"
+                value={dueDate}
+                onChange={(e) => setDueDate(e.target.value)}
+                disabled={loading}
+                className="text-xs"
+              />
+            </div>
+
+            <div className="space-y-1.5 sm:col-span-2">
+              <Label htmlFor="borrowerContact" className="text-xs font-medium">
+                Contact Info (Optional)
+              </Label>
+              <Input
+                id="borrowerContact"
+                placeholder="Email, phone or handle"
+                value={borrowerContact}
+                onChange={(e) => setBorrowerContact(e.target.value)}
+                disabled={loading}
+                className="text-xs"
+              />
+            </div>
+
+            <div className="space-y-1.5 sm:col-span-2">
+              <Label htmlFor="notes" className="text-xs font-medium">
+                Notes / Purpose
+              </Label>
+              <Input
+                id="notes"
+                placeholder="e.g. Dinner split, concert tickets, rent advance"
+                value={notes}
+                onChange={(e) => setNotes(e.target.value)}
+                disabled={loading}
+                className="text-xs"
+              />
+            </div>
+
+            <div className="flex items-center gap-2 pt-1 sm:col-span-2">
+              <input
+                type="checkbox"
+                id="isPublic"
+                checked={isPublic}
+                onChange={(e) => setIsPublic(e.target.checked)}
+                disabled={loading}
+                className="size-3.5 rounded border-border text-primary focus:ring-ring"
+              />
+              <Label htmlFor="isPublic" className="text-xs text-muted-foreground cursor-pointer font-normal">
+                Enable public shareable link immediately
+              </Label>
+            </div>
+          </div>
+
+          <DialogFooter className="pt-2">
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              onClick={() => setOpen(false)}
+              disabled={loading}
+              className="text-xs"
+            >
+              Cancel
+            </Button>
+            <Button type="submit" size="sm" disabled={loading} className="text-xs">
+              {loading ? "Saving..." : "Create Lend"}
+            </Button>
+          </DialogFooter>
+        </form>
+      </DialogContent>
+    </Dialog>
+  )
+}
