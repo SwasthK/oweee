@@ -10,7 +10,9 @@ interface PageProps {
   params: Promise<{ id: string }>
 }
 
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: PageProps): Promise<Metadata> {
   const { id } = await params
   const session = await auth.api.getSession({
     headers: await headers(),
@@ -22,7 +24,9 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   const lend = await getLendById(id)
   return {
-    title: lend ? `${lend.borrowerName} ($${Number(lend.amount).toFixed(2)}) - Oweee` : "Lend Details",
+    title: lend
+      ? `${lend.borrowerName} ($${Number(lend.amount).toFixed(2)}) - Oweee`
+      : "Lend Details",
   }
 }
 
@@ -44,10 +48,10 @@ export default async function LendPage({ params }: PageProps) {
   }
 
   return (
-    <div className="min-h-svh bg-background flex flex-col">
+    <div className="flex min-h-svh flex-col bg-background">
       <Navbar />
 
-      <main className="flex-1 flex flex-col items-center px-4 py-8 sm:px-6 sm:py-10">
+      <main className="flex flex-1 flex-col items-center px-4 py-8 sm:px-6 sm:py-10">
         <LendDetailView lend={lend} />
       </main>
     </div>

@@ -20,10 +20,19 @@ export function Navbar() {
 
           {!isPending && !session?.user && (
             <div className="flex items-center gap-2">
-              <Button variant="ghost" size="sm" render={<Link href="/login" />} className="text-xs">
+              <Button
+                variant="ghost"
+                size="sm"
+                render={<Link href="/login" />}
+                className="text-xs"
+              >
                 Sign in
               </Button>
-              <Button size="sm" render={<Link href="/register" />} className="text-xs">
+              <Button
+                size="sm"
+                render={<Link href="/register" />}
+                className="text-xs"
+              >
                 Get Started
               </Button>
             </div>

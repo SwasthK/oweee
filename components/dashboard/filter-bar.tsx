@@ -26,28 +26,29 @@ export function FilterBar({
   onSearchChange,
   counts,
 }: FilterBarProps) {
-  const filterOptions: { label: string; value: StatusFilter; count: number }[] = [
-    { label: "All", value: "all", count: counts.all },
-    { label: "Open", value: "open", count: counts.open },
-    { label: "Partial", value: "partial", count: counts.partial },
-    { label: "Settled", value: "closed", count: counts.closed },
-  ]
+  const filterOptions: { label: string; value: StatusFilter; count: number }[] =
+    [
+      { label: "All", value: "all", count: counts.all },
+      { label: "Open", value: "open", count: counts.open },
+      { label: "Partial", value: "partial", count: counts.partial },
+      { label: "Settled", value: "closed", count: counts.closed },
+    ]
 
   return (
-    <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
+    <div className="flex flex-col items-stretch justify-between gap-3 sm:flex-row sm:items-center">
       {/* Search Input */}
-      <div className="relative flex-1 max-w-sm">
+      <div className="relative max-w-sm flex-1">
         <Input
           placeholder="Search by friend or notes..."
           value={search}
           onChange={(e) => onSearchChange(e.target.value)}
-          className="text-xs pl-8 h-8.5 rounded-lg bg-input/20 border-border/70"
+          className="h-8.5 rounded-lg border-border/70 bg-input/20 pl-8 text-xs"
         />
-        <SearchIcon className="absolute left-2.5 top-1/2 -translate-y-1/2 size-3.5 text-muted-foreground" />
+        <SearchIcon className="absolute top-1/2 left-2.5 size-3.5 -translate-y-1/2 text-muted-foreground" />
       </div>
 
       {/* Status Filter Pills */}
-      <div className="flex items-center gap-1 p-1 rounded-lg bg-muted/40 border border-border/50 self-start sm:self-auto overflow-x-auto">
+      <div className="flex items-center gap-1 self-start overflow-x-auto rounded-lg border border-border/50 bg-muted/40 p-1 sm:self-auto">
         {filterOptions.map((opt) => {
           const isActive = status === opt.value
           return (
@@ -56,16 +57,16 @@ export function FilterBar({
               type="button"
               onClick={() => onStatusChange(opt.value)}
               className={cn(
-                "flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium transition-all select-none whitespace-nowrap",
+                "flex items-center gap-1.5 rounded-md px-2.5 py-1 text-xs font-medium whitespace-nowrap transition-all select-none",
                 isActive
-                  ? "bg-background text-foreground shadow-2xs border border-border/60"
-                  : "text-muted-foreground hover:text-foreground hover:bg-background/40"
+                  ? "border border-border/60 bg-background text-foreground shadow-2xs"
+                  : "text-muted-foreground hover:bg-background/40 hover:text-foreground"
               )}
             >
               <span>{opt.label}</span>
               <span
                 className={cn(
-                  "text-[10px] px-1 py-0.2 rounded-full",
+                  "py-0.2 rounded-full px-1 text-[10px]",
                   isActive
                     ? "bg-muted text-foreground"
                     : "text-muted-foreground/80"

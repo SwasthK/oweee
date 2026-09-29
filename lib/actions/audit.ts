@@ -12,7 +12,7 @@ export interface AuditLogParams {
     | "status_changed"
     | "share_toggled"
     | "deleted"
-  details?: Record<string, any>
+  details?: Record<string, unknown>
 }
 
 export async function recordAuditLog(params: AuditLogParams) {
@@ -30,7 +30,6 @@ export async function recordAuditLog(params: AuditLogParams) {
     return inserted
   } catch (error) {
     console.error("Failed to record audit log:", error)
-    // Non-blocking: audit logs should not crash the main transaction
     return null
   }
 }

@@ -1,7 +1,18 @@
-import { pgTable, text, timestamp, boolean, numeric, pgEnum } from "drizzle-orm/pg-core"
+import {
+  pgTable,
+  text,
+  timestamp,
+  boolean,
+  numeric,
+  pgEnum,
+} from "drizzle-orm/pg-core"
 import { user } from "./auth"
 
-export const lendStatusEnum = pgEnum("lend_status", ["open", "partial", "closed"])
+export const lendStatusEnum = pgEnum("lend_status", [
+  "open",
+  "partial",
+  "closed",
+])
 
 export const lends = pgTable("lends", {
   id: text("id")
@@ -13,7 +24,9 @@ export const lends = pgTable("lends", {
   borrowerName: text("borrower_name").notNull(),
   borrowerContact: text("borrower_contact"),
   amount: numeric("amount", { precision: 12, scale: 2 }).notNull(),
-  paidAmount: numeric("paid_amount", { precision: 12, scale: 2 }).notNull().default("0.00"),
+  paidAmount: numeric("paid_amount", { precision: 12, scale: 2 })
+    .notNull()
+    .default("0.00"),
   currency: text("currency").notNull().default("USD"),
   status: lendStatusEnum("status").notNull().default("open"),
   lentAt: timestamp("lent_at", { withTimezone: true }).notNull().defaultNow(),
@@ -25,6 +38,10 @@ export const lends = pgTable("lends", {
     .$defaultFn(() => crypto.randomUUID()),
   isPublic: boolean("is_public").notNull().default(false),
   deletedAt: timestamp("deleted_at", { withTimezone: true }),
-  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
-  updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
+  createdAt: timestamp("created_at", { withTimezone: true })
+    .notNull()
+    .defaultNow(),
+  updatedAt: timestamp("updated_at", { withTimezone: true })
+    .notNull()
+    .defaultNow(),
 })

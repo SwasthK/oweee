@@ -18,7 +18,9 @@ export const lendAuditLogs = pgTable("lend_audit_logs", {
     previousStatus?: string
     newStatus?: string
     note?: string
-    [key: string]: any
+    [key: string]: unknown
   }>(),
-  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+  createdAt: timestamp("created_at", { withTimezone: true })
+    .notNull()
+    .defaultNow(),
 })

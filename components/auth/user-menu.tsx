@@ -13,7 +13,7 @@ export function UserMenu() {
 
   if (isPending) {
     return (
-      <div className="size-8 rounded-full bg-muted/60 animate-pulse border border-border" />
+      <div className="size-8 animate-pulse rounded-full border border-border bg-muted/60" />
     )
   }
 
@@ -40,7 +40,7 @@ export function UserMenu() {
   return (
     <div className="flex items-center gap-3">
       <div className="flex items-center gap-2 pl-2">
-        <div className="flex size-7 items-center justify-center rounded-full bg-primary/10 text-primary border border-primary/20 text-xs font-medium">
+        <div className="flex size-7 items-center justify-center rounded-full border border-primary/20 bg-primary/10 text-xs font-medium text-primary">
           {session.user.image ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img
@@ -54,11 +54,11 @@ export function UserMenu() {
             <UserIcon className="size-3.5" />
           )}
         </div>
-        <div className="hidden sm:flex flex-col text-left">
-          <span className="text-xs font-medium leading-none text-foreground">
+        <div className="hidden flex-col text-left sm:flex">
+          <span className="text-xs leading-none font-medium text-foreground">
             {session.user.name}
           </span>
-          <span className="text-[10px] text-muted-foreground leading-none mt-0.5 truncate max-w-[140px]">
+          <span className="mt-0.5 max-w-[140px] truncate text-[10px] leading-none text-muted-foreground">
             {session.user.email}
           </span>
         </div>
@@ -67,7 +67,7 @@ export function UserMenu() {
       <Button
         variant="ghost"
         size="xs"
-        className="text-xs text-muted-foreground hover:text-foreground hover:bg-muted/80 rounded-md"
+        className="rounded-md text-xs text-muted-foreground hover:bg-muted/80 hover:text-foreground"
         onClick={handleSignOut}
         disabled={signingOut}
       >

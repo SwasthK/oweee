@@ -18,7 +18,11 @@ import {
   type UpdateStatusInput,
   type ToggleShareInput,
 } from "@/lib/validations/lend.schema"
-import { type Lend, type LendMetrics, type LendWithAuditLogs } from "@/types/lend"
+import {
+  type Lend,
+  type LendMetrics,
+  type LendWithAuditLogs,
+} from "@/types/lend"
 import { and, desc, eq, ilike, isNull, or } from "drizzle-orm"
 
 async function getAuthUser() {
@@ -42,12 +46,16 @@ export async function getLends(filters?: {
   const conditions = [eq(lends.userId, user.id), isNull(lends.deletedAt)]
 
   if (filters?.status && filters.status !== "all") {
-    conditions.push(eq(lends.status, filters.status as "open" | "partial" | "closed"))
+    conditions.push(
+      eq(lends.status, filters.status as "open" | "partial" | "closed")
+    )
   }
 
   if (filters?.search && filters.search.trim().length > 0) {
     const term = `%${filters.search.trim()}%`
-    conditions.push(or(ilike(lends.borrowerName, term), ilike(lends.notes, term))!)
+    conditions.push(
+      or(ilike(lends.borrowerName, term), ilike(lends.notes, term))!
+    )
   }
 
   return await db
@@ -93,13 +101,17 @@ export async function getLendMetrics(): Promise<LendMetrics> {
   }
 }
 
-export async function getLendById(id: string): Promise<LendWithAuditLogs | null> {
+export async function getLendById(
+  id: string
+): Promise<LendWithAuditLogs | null> {
   const user = await getAuthUser()
 
   const [lend] = await db
     .select()
     .from(lends)
-    .where(and(eq(lends.id, id), eq(lends.userId, user.id), isNull(lends.deletedAt)))
+    .where(
+      and(eq(lends.id, id), eq(lends.userId, user.id), isNull(lends.deletedAt))
+    )
 
   if (!lend) {
     return null
@@ -157,18 +169,26 @@ export async function updateLendAction(rawInput: UpdateLendInput) {
   const [existing] = await db
     .select()
     .from(lends)
-    .where(and(eq(lends.id, data.id), eq(lends.userId, user.id), isNull(lends.deletedAt)))
+    .where(
+      and(
+        eq(lends.id, data.id),
+        eq(lends.userId, user.id),
+        isNull(lends.deletedAt)
+      )
+    )
 
   if (!existing) {
     throw new Error("Lend not found")
   }
 
-  const updateValues: Record<string, any> = {
+  const updateValues: Record<string, unknown> = {
     updatedAt: new Date(),
   }
 
-  if (data.borrowerName !== undefined) updateValues.borrowerName = data.borrowerName
-  if (data.borrowerContact !== undefined) updateValues.borrowerContact = data.borrowerContact
+  if (data.borrowerName !== undefined)
+    updateValues.borrowerName = data.borrowerName
+  if (data.borrowerContact !== undefined)
+    updateValues.borrowerContact = data.borrowerContact
   if (data.amount !== undefined) updateValues.amount = data.amount.toFixed(2)
   if (data.currency !== undefined) updateValues.currency = data.currency
   if (data.dueDate !== undefined) updateValues.dueDate = data.dueDate
@@ -201,7 +221,13 @@ export async function recordPaymentAction(rawInput: RecordPaymentInput) {
   const [existing] = await db
     .select()
     .from(lends)
-    .where(and(eq(lends.id, data.lendId), eq(lends.userId, user.id), isNull(lends.deletedAt)))
+    .where(
+      and(
+        eq(lends.id, data.lendId),
+        eq(lends.userId, user.id),
+        isNull(lends.deletedAt)
+      )
+    )
 
   if (!existing) {
     throw new Error("Lend not found")
@@ -257,7 +283,13 @@ export async function updateLendStatusAction(rawInput: UpdateStatusInput) {
   const [existing] = await db
     .select()
     .from(lends)
-    .where(and(eq(lends.id, data.lendId), eq(lends.userId, user.id), isNull(lends.deletedAt)))
+    .where(
+      and(
+        eq(lends.id, data.lendId),
+        eq(lends.userId, user.id),
+        isNull(lends.deletedAt)
+      )
+    )
 
   if (!existing) {
     throw new Error("Lend not found")
@@ -293,7 +325,13 @@ export async function toggleShareAction(rawInput: ToggleShareInput) {
   const [existing] = await db
     .select()
     .from(lends)
-    .where(and(eq(lends.id, data.lendId), eq(lends.userId, user.id), isNull(lends.deletedAt)))
+    .where(
+      and(
+        eq(lends.id, data.lendId),
+        eq(lends.userId, user.id),
+        isNull(lends.deletedAt)
+      )
+    )
 
   if (!existing) {
     throw new Error("Lend not found")
@@ -328,7 +366,13 @@ export async function deleteLendAction(lendId: string) {
   const [existing] = await db
     .select()
     .from(lends)
-    .where(and(eq(lends.id, lendId), eq(lends.userId, user.id), isNull(lends.deletedAt)))
+    .where(
+      and(
+        eq(lends.id, lendId),
+        eq(lends.userId, user.id),
+        isNull(lends.deletedAt)
+      )
+    )
 
   if (!existing) {
     throw new Error("Lend not found")

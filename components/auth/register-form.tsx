@@ -7,7 +7,14 @@ import { signUp } from "@/lib/auth-client"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
 import { AlertCircle } from "@/components/ui/alert-circle"
 
 export function RegisterForm() {
@@ -57,9 +64,11 @@ export function RegisterForm() {
   }
 
   return (
-    <Card className="w-full max-w-sm border-border/80 bg-card/60 backdrop-blur-md shadow-sm">
+    <Card className="w-full max-w-sm border-border/80 bg-card/60 shadow-sm backdrop-blur-md">
       <CardHeader className="space-y-1">
-        <CardTitle className="text-xl tracking-tight">Create an account</CardTitle>
+        <CardTitle className="text-xl tracking-tight">
+          Create an account
+        </CardTitle>
         <CardDescription className="text-xs text-muted-foreground">
           Start tracking loans and settlements with your friends.
         </CardDescription>
@@ -151,7 +160,7 @@ export function RegisterForm() {
             Already have an account?{" "}
             <Link
               href="/login"
-              className="text-foreground underline underline-offset-4 hover:text-foreground/80 font-medium"
+              className="font-medium text-foreground underline underline-offset-4 hover:text-foreground/80"
             >
               Sign in
             </Link>

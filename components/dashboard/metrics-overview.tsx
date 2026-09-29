@@ -7,7 +7,10 @@ interface MetricsOverviewProps {
   currency?: string
 }
 
-export function MetricsOverview({ metrics, currency = "$" }: MetricsOverviewProps) {
+export function MetricsOverview({
+  metrics,
+  currency = "$",
+}: MetricsOverviewProps) {
   const formatMoney = (val: number) => {
     return `${currency}${val.toLocaleString("en-US", {
       minimumFractionDigits: 2,
@@ -23,11 +26,12 @@ export function MetricsOverview({ metrics, currency = "$" }: MetricsOverviewProp
           <span className="font-medium">Total Lent</span>
           <CoinStack className="size-4 text-muted-foreground/80" />
         </div>
-        <div className="mt-2 text-2xl font-semibold tracking-tight text-foreground font-heading">
+        <div className="mt-2 font-heading text-2xl font-semibold tracking-tight text-foreground">
           {formatMoney(metrics.totalLent)}
         </div>
         <div className="mt-1 text-[11px] text-muted-foreground">
-          Across {metrics.activeCount + metrics.closedCount} {metrics.activeCount + metrics.closedCount === 1 ? "lend" : "lends"}
+          Across {metrics.activeCount + metrics.closedCount}{" "}
+          {metrics.activeCount + metrics.closedCount === 1 ? "lend" : "lends"}
         </div>
       </Card>
 
@@ -37,7 +41,7 @@ export function MetricsOverview({ metrics, currency = "$" }: MetricsOverviewProp
           <span className="font-medium">Total Settled</span>
           <CheckCircle className="size-4 text-emerald-500/80" />
         </div>
-        <div className="mt-2 text-2xl font-semibold tracking-tight text-emerald-600 dark:text-emerald-400 font-heading">
+        <div className="mt-2 font-heading text-2xl font-semibold tracking-tight text-emerald-600 dark:text-emerald-400">
           {formatMoney(metrics.totalPaid)}
         </div>
         <div className="mt-1 text-[11px] text-muted-foreground">
@@ -51,7 +55,7 @@ export function MetricsOverview({ metrics, currency = "$" }: MetricsOverviewProp
           <span className="font-medium">Pending Balance</span>
           <Clock className="size-4 text-amber-500/80" />
         </div>
-        <div className="mt-2 text-2xl font-semibold tracking-tight text-foreground font-heading">
+        <div className="mt-2 font-heading text-2xl font-semibold tracking-tight text-foreground">
           {formatMoney(metrics.totalOutstanding)}
         </div>
         <div className="mt-1 text-[11px] text-muted-foreground">

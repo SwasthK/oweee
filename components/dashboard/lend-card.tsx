@@ -13,11 +13,11 @@ import {
   CheckCircle,
   ShareIcon,
   TrashIcon,
-  CopyIcon,
   CheckIcon,
   ExternalLinkIcon,
   Calendar,
 } from "@/components/ui/icons"
+import { useIsOverdue } from "@/hooks/use-is-overdue"
 import { cn } from "@/lib/utils"
 
 interface LendCardProps {
@@ -33,14 +33,15 @@ export function LendCard({ lend, onRecordPayment }: LendCardProps) {
   const totalAmount = Number(lend.amount) || 0
   const paidAmount = Number(lend.paidAmount) || 0
   const remaining = Math.max(0, totalAmount - paidAmount)
-  const progressPercent = totalAmount > 0 ? Math.min(100, Math.round((paidAmount / totalAmount) * 100)) : 0
+  const progressPercent =
+    totalAmount > 0
+      ? Math.min(100, Math.round((paidAmount / totalAmount) * 100))
+      : 0
 
   const isClosed = lend.status === "closed"
   const isPartial = lend.status === "partial"
 
-  // Check if overdue
-  const isOverdue =
-    !isClosed && lend.dueDate && new Date(lend.dueDate).getTime() < Date.now()
+  const isOverdue = useIsOverdue(lend.dueDate, isClosed)
 
   const handleCopyShareLink = async (e: React.MouseEvent) => {
     e.preventDefault()
@@ -62,7 +63,11 @@ export function LendCard({ lend, onRecordPayment }: LendCardProps) {
     e.preventDefault()
     e.stopPropagation()
 
-    if (!confirm(`Are you sure you want to delete the lend for ${lend.borrowerName}?`)) {
+    if (
+      !confirm(
+        `Are you sure you want to delete the lend for ${lend.borrowerName}?`
+      )
+    ) {
       return
     }
 
@@ -95,8 +100,8 @@ export function LendCard({ lend, onRecordPayment }: LendCardProps) {
       <div className="flex flex-col gap-3">
         {/* Top Header Row */}
         <div className="flex items-start justify-between gap-3">
-          <div className="flex items-center gap-2.5 min-w-0">
-            <div className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-muted text-xs font-semibold text-foreground uppercase border border-border/80">
+          <div className="flex min-w-0 items-center gap-2.5">
+            <div className="flex size-8 shrink-0 items-center justify-center rounded-lg border border-border/80 bg-muted text-xs font-semibold text-foreground uppercase">
               {lend.borrowerName.slice(0, 2)}
             </div>
 
@@ -104,19 +109,22 @@ export function LendCard({ lend, onRecordPayment }: LendCardProps) {
               <div className="flex items-center gap-2">
                 <Link
                   href={`/lends/${lend.id}`}
-                  className="font-medium text-sm text-foreground hover:underline truncate"
+                  className="truncate text-sm font-medium text-foreground hover:underline"
                 >
                   {lend.borrowerName}
                 </Link>
                 {lend.isPublic && (
-                  <Badge variant="outline" className="text-[9px] h-4 px-1 text-muted-foreground border-border/50">
+                  <Badge
+                    variant="outline"
+                    className="h-4 border-border/50 px-1 text-[9px] text-muted-foreground"
+                  >
                     Public
                   </Badge>
                 )}
               </div>
 
               {lend.borrowerContact && (
-                <div className="text-[11px] text-muted-foreground truncate">
+                <div className="truncate text-[11px] text-muted-foreground">
                   {lend.borrowerContact}
                 </div>
               )}
@@ -124,7 +132,7 @@ export function LendCard({ lend, onRecordPayment }: LendCardProps) {
           </div>
 
           {/* Status Badge & Total Amount */}
-          <div className="text-right shrink-0">
+          <div className="shrink-0 text-right">
             <div className="font-heading text-base font-semibold text-foreground">
               ${totalAmount.toFixed(2)}
             </div>
@@ -133,23 +141,23 @@ export function LendCard({ lend, onRecordPayment }: LendCardProps) {
               {isClosed ? (
                 <Badge
                   variant="secondary"
-                  className="bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 text-[10px] h-4.5 px-1.5"
+                  className="h-4.5 border border-emerald-500/20 bg-emerald-500/10 px-1.5 text-[10px] text-emerald-600 dark:text-emerald-400"
                 >
-                  <CheckCircle className="size-2.5 mr-0.5" /> Settled
+                  <CheckCircle className="mr-0.5 size-2.5" /> Settled
                 </Badge>
               ) : isPartial ? (
                 <Badge
                   variant="outline"
-                  className="bg-blue-500/10 text-blue-600 dark:text-blue-400 border-blue-500/20 text-[10px] h-4.5 px-1.5"
+                  className="h-4.5 border-blue-500/20 bg-blue-500/10 px-1.5 text-[10px] text-blue-600 dark:text-blue-400"
                 >
-                  <Clock className="size-2.5 mr-0.5" /> Partial
+                  <Clock className="mr-0.5 size-2.5" /> Partial
                 </Badge>
               ) : (
                 <Badge
                   variant="outline"
-                  className="bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20 text-[10px] h-4.5 px-1.5"
+                  className="h-4.5 border-amber-500/20 bg-amber-500/10 px-1.5 text-[10px] text-amber-600 dark:text-amber-400"
                 >
-                  <Clock className="size-2.5 mr-0.5" /> Open
+                  <Clock className="mr-0.5 size-2.5" /> Open
                 </Badge>
               )}
             </div>
@@ -167,7 +175,7 @@ export function LendCard({ lend, onRecordPayment }: LendCardProps) {
                 ${remaining.toFixed(2)} left
               </span>
             </div>
-            <div className="h-1.5 w-full rounded-full bg-muted overflow-hidden">
+            <div className="h-1.5 w-full overflow-hidden rounded-full bg-muted">
               <div
                 className="h-full rounded-full bg-blue-500 transition-all duration-300"
                 style={{ width: `${progressPercent}%` }}
@@ -177,7 +185,7 @@ export function LendCard({ lend, onRecordPayment }: LendCardProps) {
         )}
 
         {lend.notes && (
-          <p className="text-xs text-muted-foreground/90 line-clamp-1 italic">
+          <p className="line-clamp-1 text-xs text-muted-foreground/90 italic">
             &ldquo;{lend.notes}&rdquo;
           </p>
         )}
@@ -194,11 +202,17 @@ export function LendCard({ lend, onRecordPayment }: LendCardProps) {
               <span
                 className={cn(
                   "flex items-center gap-1",
-                  isOverdue ? "text-destructive font-medium" : "text-muted-foreground"
+                  isOverdue
+                    ? "font-medium text-destructive"
+                    : "text-muted-foreground"
                 )}
               >
                 <span>Due: {formattedDueDate}</span>
-                {isOverdue && <span className="text-[10px] uppercase font-bold">(Overdue)</span>}
+                {isOverdue && (
+                  <span className="text-[10px] font-bold uppercase">
+                    (Overdue)
+                  </span>
+                )}
               </span>
             )}
           </div>
@@ -210,7 +224,7 @@ export function LendCard({ lend, onRecordPayment }: LendCardProps) {
                 variant="outline"
                 size="xs"
                 onClick={() => onRecordPayment(lend)}
-                className="h-6.5 text-[11px] px-2 rounded-md hover:border-foreground/30"
+                className="h-6.5 rounded-md px-2 text-[11px] hover:border-foreground/30"
               >
                 Record Payment
               </Button>
@@ -234,7 +248,7 @@ export function LendCard({ lend, onRecordPayment }: LendCardProps) {
             {/* View Details Link */}
             <Link
               href={`/lends/${lend.id}`}
-              className="inline-flex size-6.5 items-center justify-center rounded-md text-muted-foreground hover:text-foreground hover:bg-muted/80"
+              className="inline-flex size-6.5 items-center justify-center rounded-md text-muted-foreground hover:bg-muted/80 hover:text-foreground"
               title="View timeline & audit log"
             >
               <ExternalLinkIcon className="size-3" />

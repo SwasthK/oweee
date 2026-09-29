@@ -4,7 +4,27 @@ import { lends, lendAuditLogs } from "@/db/schema"
 export type Lend = InferSelectModel<typeof lends>
 export type NewLend = InferInsertModel<typeof lends>
 
-export type LendAuditLog = InferSelectModel<typeof lendAuditLogs>
+export interface AuditLogDetails {
+  amount?: number | string
+  borrowerName?: string
+  currency?: string
+  paymentAmount?: number | string
+  previousPaid?: number | string
+  newPaid?: number | string
+  previousStatus?: string
+  newStatus?: string
+  isPublic?: boolean
+  note?: string
+  changes?: Record<string, unknown>
+}
+
+export type LendAuditLog = Omit<
+  InferSelectModel<typeof lendAuditLogs>,
+  "details"
+> & {
+  details: AuditLogDetails | null
+}
+
 export type NewLendAuditLog = InferInsertModel<typeof lendAuditLogs>
 
 export type LendStatus = "open" | "partial" | "closed"

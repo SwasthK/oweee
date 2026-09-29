@@ -9,14 +9,17 @@ interface PageProps {
   params: Promise<{ token: string }>
 }
 
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: PageProps): Promise<Metadata> {
   const { token } = await params
   const lend = await getPublicLendByToken(token)
 
   if (!lend) {
     return {
       title: "Shared Lend Not Found - Oweee",
-      description: "The shared lend record could not be found or is no longer public.",
+      description:
+        "The shared lend record could not be found or is no longer public.",
     }
   }
 
@@ -34,9 +37,9 @@ export default async function PublicSharePage({ params }: PageProps) {
 
   if (!lend) {
     return (
-      <div className="min-h-svh bg-background flex flex-col items-center justify-center p-6 text-center">
+      <div className="flex min-h-svh flex-col items-center justify-center bg-background p-6 text-center">
         <div className="w-full max-w-sm space-y-4">
-          <div className="mx-auto flex size-12 items-center justify-center rounded-2xl bg-muted border border-border">
+          <div className="mx-auto flex size-12 items-center justify-center rounded-2xl border border-border bg-muted">
             <CoinStack className="size-6 text-muted-foreground" />
           </div>
 
@@ -44,8 +47,9 @@ export default async function PublicSharePage({ params }: PageProps) {
             <h1 className="font-heading text-xl font-bold tracking-tight text-foreground">
               Link Not Found
             </h1>
-            <p className="text-xs text-muted-foreground leading-relaxed">
-              This lend record does not exist, has been deleted, or public sharing has been disabled by the owner.
+            <p className="text-xs leading-relaxed text-muted-foreground">
+              This lend record does not exist, has been deleted, or public
+              sharing has been disabled by the owner.
             </p>
           </div>
 
@@ -60,8 +64,8 @@ export default async function PublicSharePage({ params }: PageProps) {
   }
 
   return (
-    <div className="min-h-svh bg-background flex flex-col">
-      <main className="flex-1 flex flex-col items-center">
+    <div className="flex min-h-svh flex-col bg-background">
+      <main className="flex flex-1 flex-col items-center">
         <PublicLendView lend={lend} />
       </main>
     </div>

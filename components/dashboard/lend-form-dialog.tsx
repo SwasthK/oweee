@@ -31,7 +31,9 @@ export function LendFormDialog({ children }: LendFormDialogProps) {
   const [borrowerContact, setBorrowerContact] = React.useState("")
   const [amount, setAmount] = React.useState("")
   const [currency, setCurrency] = React.useState("USD")
-  const [lentAt, setLentAt] = React.useState(new Date().toISOString().split("T")[0])
+  const [lentAt, setLentAt] = React.useState(
+    new Date().toISOString().split("T")[0]
+  )
   const [dueDate, setDueDate] = React.useState("")
   const [notes, setNotes] = React.useState("")
   const [isPublic, setIsPublic] = React.useState(false)
@@ -82,19 +84,29 @@ export function LendFormDialog({ children }: LendFormDialogProps) {
         setOpen(false)
         router.refresh()
       }
-    } catch (err: any) {
-      setError(err?.message || "Failed to create lend. Please try again.")
+    } catch (err: unknown) {
+      const message =
+        err instanceof Error
+          ? err.message
+          : "Failed to create lend. Please try again."
+      setError(message)
     } finally {
       setLoading(false)
     }
   }
 
   return (
-    <Dialog open={open} onOpenChange={(val) => { setOpen(val); if (!val) resetForm(); }}>
+    <Dialog
+      open={open}
+      onOpenChange={(val) => {
+        setOpen(val)
+        if (!val) resetForm()
+      }}
+    >
       <DialogTrigger
         render={
           children ? (
-            (children as any)
+            (children as React.ReactElement)
           ) : (
             <Button size="sm" className="gap-1.5 shadow-xs">
               <AddCircle className="size-4" />
@@ -106,11 +118,12 @@ export function LendFormDialog({ children }: LendFormDialogProps) {
 
       <DialogContent className="max-w-md border-border/80 bg-card p-6 shadow-lg sm:rounded-2xl">
         <DialogHeader>
-          <DialogTitle className="text-lg tracking-tight font-heading">
+          <DialogTitle className="font-heading text-lg tracking-tight">
             Record New Lend
           </DialogTitle>
           <DialogDescription className="text-xs text-muted-foreground">
-            Track money lent to a friend with optional due dates and public sharing.
+            Track money lent to a friend with optional due dates and public
+            sharing.
           </DialogDescription>
         </DialogHeader>
 
@@ -122,7 +135,7 @@ export function LendFormDialog({ children }: LendFormDialogProps) {
             </div>
           )}
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
             <div className="space-y-1.5 sm:col-span-2">
               <Label htmlFor="borrowerName" className="text-xs font-medium">
                 Friend&apos;s Name *
@@ -153,9 +166,9 @@ export function LendFormDialog({ children }: LendFormDialogProps) {
                   value={amount}
                   onChange={(e) => setAmount(e.target.value)}
                   disabled={loading}
-                  className="text-xs pl-7"
+                  className="pl-7 text-xs"
                 />
-                <span className="absolute left-2.5 top-1/2 -translate-y-1/2 text-xs text-muted-foreground">
+                <span className="absolute top-1/2 left-2.5 -translate-y-1/2 text-xs text-muted-foreground">
                   $
                 </span>
               </div>
@@ -241,7 +254,10 @@ export function LendFormDialog({ children }: LendFormDialogProps) {
                 disabled={loading}
                 className="size-3.5 rounded border-border text-primary focus:ring-ring"
               />
-              <Label htmlFor="isPublic" className="text-xs text-muted-foreground cursor-pointer font-normal">
+              <Label
+                htmlFor="isPublic"
+                className="cursor-pointer text-xs font-normal text-muted-foreground"
+              >
                 Enable public shareable link immediately
               </Label>
             </div>
@@ -258,7 +274,12 @@ export function LendFormDialog({ children }: LendFormDialogProps) {
             >
               Cancel
             </Button>
-            <Button type="submit" size="sm" disabled={loading} className="text-xs">
+            <Button
+              type="submit"
+              size="sm"
+              disabled={loading}
+              className="text-xs"
+            >
               {loading ? "Saving..." : "Create Lend"}
             </Button>
           </DialogFooter>

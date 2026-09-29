@@ -15,9 +15,16 @@ export type CreateLendInput = z.infer<typeof createLendSchema>
 
 export const updateLendSchema = z.object({
   id: z.string().min(1),
-  borrowerName: z.string().trim().min(1, "Friend's name is required").optional(),
+  borrowerName: z
+    .string()
+    .trim()
+    .min(1, "Friend's name is required")
+    .optional(),
   borrowerContact: z.string().trim().optional().nullable(),
-  amount: z.coerce.number().positive("Amount must be greater than zero").optional(),
+  amount: z.coerce
+    .number()
+    .positive("Amount must be greater than zero")
+    .optional(),
   currency: z.string().optional(),
   dueDate: z.coerce.date().optional().nullable(),
   notes: z.string().trim().optional().nullable(),
@@ -28,7 +35,9 @@ export type UpdateLendInput = z.infer<typeof updateLendSchema>
 
 export const recordPaymentSchema = z.object({
   lendId: z.string().min(1, "Lend ID is required"),
-  amount: z.coerce.number().positive("Payment amount must be greater than zero"),
+  amount: z.coerce
+    .number()
+    .positive("Payment amount must be greater than zero"),
   note: z.string().trim().optional(),
 })
 
