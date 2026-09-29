@@ -97,7 +97,7 @@ export default async function HomePage() {
                 </div>
                 <div className="text-right">
                   <div className="text-xs font-semibold text-foreground">
-                    $120.00
+                    ₹120.00
                   </div>
                   <Badge
                     variant="outline"
@@ -124,7 +124,7 @@ export default async function HomePage() {
                 </div>
                 <div className="text-right">
                   <div className="text-xs font-semibold text-foreground">
-                    $65.00
+                    ₹65.00
                   </div>
                   <Badge
                     variant="secondary"

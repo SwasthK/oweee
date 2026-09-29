@@ -18,6 +18,7 @@ import {
   Calendar,
 } from "@/components/ui/icons"
 import { useIsOverdue } from "@/hooks/use-is-overdue"
+import { formatMoney } from "@/lib/currency"
 import { cn } from "@/lib/utils"
 
 interface LendCardProps {
@@ -134,7 +135,7 @@ export function LendCard({ lend, onRecordPayment }: LendCardProps) {
           {/* Status Badge & Total Amount */}
           <div className="shrink-0 text-right">
             <div className="font-heading text-base font-semibold text-foreground">
-              ${totalAmount.toFixed(2)}
+              {formatMoney(totalAmount, lend.currency)}
             </div>
 
             <div className="mt-0.5">
@@ -169,10 +170,10 @@ export function LendCard({ lend, onRecordPayment }: LendCardProps) {
           <div className="space-y-1">
             <div className="flex justify-between text-[11px]">
               <span className="text-muted-foreground">
-                ${paidAmount.toFixed(2)} paid ({progressPercent}%)
+                {formatMoney(paidAmount, lend.currency)} paid ({progressPercent}%)
               </span>
               <span className="font-medium text-foreground">
-                ${remaining.toFixed(2)} left
+                {formatMoney(remaining, lend.currency)} left
               </span>
             </div>
             <div className="h-1.5 w-full overflow-hidden rounded-full bg-muted">

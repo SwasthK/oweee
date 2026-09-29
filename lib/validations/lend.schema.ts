@@ -4,7 +4,7 @@ export const createLendSchema = z.object({
   borrowerName: z.string().trim().min(1, "Friend's name is required"),
   borrowerContact: z.string().trim().optional(),
   amount: z.coerce.number().positive("Amount must be greater than zero"),
-  currency: z.string().default("USD"),
+  currency: z.string().default("INR"),
   lentAt: z.coerce.date().default(() => new Date()),
   dueDate: z.coerce.date().optional().nullable(),
   notes: z.string().trim().optional(),

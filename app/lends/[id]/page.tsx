@@ -4,6 +4,7 @@ import { auth } from "@/lib/auth"
 import { getLendById } from "@/lib/actions/lends"
 import { Navbar } from "@/components/layout/navbar"
 import { LendDetailView } from "@/components/lends/lend-detail-view"
+import { formatMoney } from "@/lib/currency"
 import { Metadata } from "next"
 
 interface PageProps {
@@ -25,7 +26,7 @@ export async function generateMetadata({
   const lend = await getLendById(id)
   return {
     title: lend
-      ? `${lend.borrowerName} ($${Number(lend.amount).toFixed(2)}) - Oweee`
+      ? `${lend.borrowerName} (${formatMoney(lend.amount, lend.currency)}) - Oweee`
       : "Lend Details",
   }
 }

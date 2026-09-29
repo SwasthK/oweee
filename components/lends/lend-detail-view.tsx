@@ -22,6 +22,7 @@ import { PaymentDialog } from "@/components/dashboard/payment-dialog"
 import { EditLendDialog } from "./edit-lend-dialog"
 import { AuditTimeline } from "@/components/audit/audit-timeline"
 import { useIsOverdue } from "@/hooks/use-is-overdue"
+import { formatMoney } from "@/lib/currency"
 import { cn } from "@/lib/utils"
 
 interface LendDetailViewProps {
@@ -217,7 +218,7 @@ export function LendDetailView({ lend }: LendDetailViewProps) {
                 Total Lent
               </span>
               <div className="font-heading text-3xl font-bold tracking-tight text-foreground">
-                ${totalAmount.toFixed(2)}
+                {formatMoney(totalAmount, lend.currency)}
               </div>
             </div>
 
@@ -226,13 +227,13 @@ export function LendDetailView({ lend }: LendDetailViewProps) {
               <div className="flex justify-between text-xs">
                 <span className="text-muted-foreground">Paid so far:</span>
                 <span className="font-semibold text-emerald-600 dark:text-emerald-400">
-                  ${paidAmount.toFixed(2)}
+                  {formatMoney(paidAmount, lend.currency)}
                 </span>
               </div>
               <div className="flex justify-between text-xs">
                 <span className="text-muted-foreground">Outstanding:</span>
                 <span className="font-semibold text-foreground">
-                  ${remaining.toFixed(2)}
+                  {formatMoney(remaining, lend.currency)}
                 </span>
               </div>
 
@@ -362,7 +363,7 @@ export function LendDetailView({ lend }: LendDetailViewProps) {
           </div>
 
           <Card className="border-border/70 bg-card/60 p-5">
-            <AuditTimeline logs={lend.auditLogs} />
+            <AuditTimeline logs={lend.auditLogs} currency={lend.currency} />
           </Card>
         </div>
       </div>

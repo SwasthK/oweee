@@ -4,6 +4,7 @@ import { getPublicLendByToken } from "@/lib/actions/public-lend"
 import { PublicLendView } from "@/components/share/public-lend-view"
 import { Button } from "@/components/ui/button"
 import { CoinStack } from "@/components/ui/icons"
+import { formatMoney } from "@/lib/currency"
 
 interface PageProps {
   params: Promise<{ token: string }>
@@ -26,8 +27,8 @@ export async function generateMetadata({
   const remaining = Math.max(0, Number(lend.amount) - Number(lend.paidAmount))
 
   return {
-    title: `Loan to ${lend.borrowerName} ($${remaining.toFixed(2)} remaining) - Oweee`,
-    description: `Transparent lending record tracked on Oweee. Total: $${Number(lend.amount).toFixed(2)}`,
+    title: `Loan to ${lend.borrowerName} (${formatMoney(remaining, lend.currency)} remaining) - Oweee`,
+    description: `Transparent lending record tracked on Oweee. Total: ${formatMoney(lend.amount, lend.currency)}`,
   }
 }
 

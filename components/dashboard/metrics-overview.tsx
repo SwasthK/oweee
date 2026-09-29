@@ -1,6 +1,7 @@
 import { LendMetrics } from "@/types/lend"
 import { Card } from "@/components/ui/card"
 import { CoinStack, CheckCircle, Clock } from "@/components/ui/icons"
+import { getCurrencySymbol, DEFAULT_CURRENCY } from "@/lib/currency"
 
 interface MetricsOverviewProps {
   metrics: LendMetrics
@@ -9,10 +10,11 @@ interface MetricsOverviewProps {
 
 export function MetricsOverview({
   metrics,
-  currency = "$",
+  currency = DEFAULT_CURRENCY,
 }: MetricsOverviewProps) {
+  const symbol = getCurrencySymbol(currency)
   const formatMoney = (val: number) => {
-    return `${currency}${val.toLocaleString("en-US", {
+    return `${symbol}${val.toLocaleString("en-US", {
       minimumFractionDigits: 2,
       maximumFractionDigits: 2,
     })}`

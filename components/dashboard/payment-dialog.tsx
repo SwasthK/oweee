@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/dialog"
 import { AlertTriangle, CheckCircle } from "@/components/ui/icons"
 import { Lend } from "@/types/lend"
+import { formatMoney, getCurrencySymbol } from "@/lib/currency"
 
 interface PaymentDialogProps {
   lend: Lend | null
@@ -82,19 +83,19 @@ function PaymentForm({
         <div className="flex justify-between text-muted-foreground">
           <span>Total Lent:</span>
           <span className="font-medium text-foreground">
-            ${totalAmount.toFixed(2)}
+            {formatMoney(totalAmount, lend.currency)}
           </span>
         </div>
         <div className="flex justify-between text-muted-foreground">
           <span>Previously Paid:</span>
           <span className="font-medium text-emerald-600 dark:text-emerald-400">
-            ${paidAmount.toFixed(2)}
+            {formatMoney(paidAmount, lend.currency)}
           </span>
         </div>
         <div className="flex justify-between border-t border-border/60 pt-1.5 font-medium">
           <span className="text-foreground">Remaining Balance:</span>
           <span className="text-sm font-semibold text-foreground">
-            ${remaining.toFixed(2)}
+            {formatMoney(remaining, lend.currency)}
           </span>
         </div>
       </div>
@@ -117,7 +118,7 @@ function PaymentForm({
               onClick={() => setAmount(remaining.toFixed(2))}
               className="cursor-pointer text-[11px] font-medium text-primary hover:underline"
             >
-              Pay Full (${remaining.toFixed(2)})
+              Pay Full ({formatMoney(remaining, lend.currency)})
             </button>
           </div>
           <div className="relative">
@@ -134,7 +135,7 @@ function PaymentForm({
               className="pl-7 font-mono text-xs font-medium"
             />
             <span className="absolute top-1/2 left-2.5 -translate-y-1/2 text-xs text-muted-foreground">
-              $
+              {getCurrencySymbol(lend.currency)}
             </span>
           </div>
         </div>

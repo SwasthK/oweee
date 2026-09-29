@@ -13,6 +13,7 @@ import {
 import { cn } from "@/lib/utils"
 import { ThemeToggle } from "@/components/layout/theme-toggle"
 import { useIsOverdue } from "@/hooks/use-is-overdue"
+import { formatMoney, getCurrencySymbol } from "@/lib/currency"
 
 import { AuditLogDetails } from "@/types/lend"
 
@@ -144,7 +145,7 @@ export function PublicLendView({ lend }: PublicLendViewProps) {
               Total Loaned
             </div>
             <div className="mt-0.5 font-heading text-xl font-semibold text-foreground">
-              ${totalAmount.toFixed(2)}
+              {formatMoney(totalAmount, lend.currency)}
             </div>
           </div>
 
@@ -160,7 +161,7 @@ export function PublicLendView({ lend }: PublicLendViewProps) {
                   : "text-foreground"
               )}
             >
-              ${remaining.toFixed(2)}
+              {formatMoney(remaining, lend.currency)}
             </div>
           </div>
         </div>
@@ -171,7 +172,7 @@ export function PublicLendView({ lend }: PublicLendViewProps) {
             <span className="text-muted-foreground">
               Paid:{" "}
               <strong className="text-foreground">
-                ${paidAmount.toFixed(2)}
+                {formatMoney(paidAmount, lend.currency)}
               </strong>
             </span>
             <span className="font-mono text-[11px] text-muted-foreground">
@@ -255,14 +256,15 @@ export function PublicLendView({ lend }: PublicLendViewProps) {
                     <div>
                       {log.action === "created" && (
                         <span className="text-muted-foreground">
-                          Loan initiated for $
-                          {Number(details.amount || 0).toFixed(2)}
+                          Loan initiated for{" "}
+                          {formatMoney(details.amount || 0, lend.currency)}
                         </span>
                       )}
                       {log.action === "payment_recorded" && (
                         <div className="space-y-0.5">
                           <span className="font-medium text-emerald-600 dark:text-emerald-400">
-                            +${Number(details.paymentAmount || 0).toFixed(2)}{" "}
+                            +{getCurrencySymbol(lend.currency)}
+                            {Number(details.paymentAmount || 0).toFixed(2)}{" "}
                             payment logged
                           </span>
                           {details.note && (

@@ -8,6 +8,7 @@ import {
   ShareIcon,
   TrashIcon,
 } from "@/components/ui/icons"
+import { getCurrencySymbol, DEFAULT_CURRENCY } from "@/lib/currency"
 import { cn } from "@/lib/utils"
 
 interface AuditTimelineProps {
@@ -15,7 +16,8 @@ interface AuditTimelineProps {
   currency?: string
 }
 
-export function AuditTimeline({ logs, currency = "$" }: AuditTimelineProps) {
+export function AuditTimeline({ logs, currency = DEFAULT_CURRENCY }: AuditTimelineProps) {
+  const symbol = getCurrencySymbol(currency)
   if (logs.length === 0) {
     return (
       <div className="rounded-xl border border-dashed border-border/70 p-6 text-center text-xs text-muted-foreground">
@@ -135,7 +137,7 @@ export function AuditTimeline({ logs, currency = "$" }: AuditTimelineProps) {
                 <p className="text-xs text-muted-foreground">
                   Original loan of{" "}
                   <span className="font-semibold text-foreground">
-                    {currency}
+                    {symbol}
                     {Number(details.amount || 0).toFixed(2)}
                   </span>{" "}
                   created for{" "}
@@ -151,7 +153,7 @@ export function AuditTimeline({ logs, currency = "$" }: AuditTimelineProps) {
                   <p>
                     Recorded payment of{" "}
                     <span className="font-semibold text-emerald-600 dark:text-emerald-400">
-                      +{currency}
+                      +{symbol}
                       {Number(details.paymentAmount || 0).toFixed(2)}
                     </span>
                     .
@@ -160,7 +162,7 @@ export function AuditTimeline({ logs, currency = "$" }: AuditTimelineProps) {
                         {" "}
                         Total paid is now{" "}
                         <span className="font-medium text-foreground">
-                          {currency}
+                          {symbol}
                           {Number(details.newPaid).toFixed(2)}
                         </span>
                         .

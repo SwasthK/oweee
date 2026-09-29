@@ -16,6 +16,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog"
 import { AlertTriangle } from "@/components/ui/icons"
+import { CURRENCIES, DEFAULT_CURRENCY, getCurrencySymbol } from "@/lib/currency"
 
 interface EditLendDialogProps {
   lend: Lend
@@ -41,6 +42,7 @@ function EditLendForm({
     lend.borrowerContact || ""
   )
   const [amount, setAmount] = React.useState(lend.amount)
+  const [currency, setCurrency] = React.useState(lend.currency || DEFAULT_CURRENCY)
   const [dueDate, setDueDate] = React.useState(
     lend.dueDate ? new Date(lend.dueDate).toISOString().split("T")[0] : ""
   )
@@ -69,6 +71,7 @@ function EditLendForm({
         borrowerName: borrowerName.trim(),
         borrowerContact: borrowerContact.trim() || undefined,
         amount: numAmount,
+        currency,
         dueDate: dueDate ? new Date(dueDate) : undefined,
         notes: notes.trim() || undefined,
       })
@@ -128,24 +131,43 @@ function EditLendForm({
                 className="pl-7 text-xs"
               />
               <span className="absolute top-1/2 left-2.5 -translate-y-1/2 text-xs text-muted-foreground">
-                $
+                {getCurrencySymbol(currency)}
               </span>
             </div>
           </div>
 
           <div className="space-y-1.5">
-            <Label htmlFor="editDueDate" className="text-xs font-medium">
-              Due Date
+            <Label htmlFor="editCurrency" className="text-xs font-medium">
+              Currency
             </Label>
-            <Input
-              id="editDueDate"
-              type="date"
-              value={dueDate}
-              onChange={(e) => setDueDate(e.target.value)}
+            <select
+              id="editCurrency"
+              value={currency}
+              onChange={(e) => setCurrency(e.target.value)}
               disabled={loading}
-              className="text-xs"
-            />
+              className="h-9 w-full rounded-4xl border border-input bg-input/30 px-3 py-1 text-xs outline-none cursor-pointer focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50"
+            >
+              {CURRENCIES.map((c) => (
+                <option key={c.code} value={c.code} className="bg-popover text-foreground">
+                  {c.label}
+                </option>
+              ))}
+            </select>
           </div>
+        </div>
+
+        <div className="space-y-1.5">
+          <Label htmlFor="editDueDate" className="text-xs font-medium">
+            Due Date (Optional)
+          </Label>
+          <Input
+            id="editDueDate"
+            type="date"
+            value={dueDate}
+            onChange={(e) => setDueDate(e.target.value)}
+            disabled={loading}
+            className="text-xs"
+          />
         </div>
 
         <div className="space-y-1.5">

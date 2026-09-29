@@ -16,6 +16,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 import { AddCircle, AlertTriangle } from "@/components/ui/icons"
+import { CURRENCIES, DEFAULT_CURRENCY, getCurrencySymbol } from "@/lib/currency"
 
 interface LendFormDialogProps {
   children?: React.ReactNode
@@ -30,7 +31,7 @@ export function LendFormDialog({ children }: LendFormDialogProps) {
   const [borrowerName, setBorrowerName] = React.useState("")
   const [borrowerContact, setBorrowerContact] = React.useState("")
   const [amount, setAmount] = React.useState("")
-  const [currency, setCurrency] = React.useState("USD")
+  const [currency, setCurrency] = React.useState(DEFAULT_CURRENCY)
   const [lentAt, setLentAt] = React.useState(
     new Date().toISOString().split("T")[0]
   )
@@ -42,7 +43,7 @@ export function LendFormDialog({ children }: LendFormDialogProps) {
     setBorrowerName("")
     setBorrowerContact("")
     setAmount("")
-    setCurrency("USD")
+    setCurrency(DEFAULT_CURRENCY)
     setLentAt(new Date().toISOString().split("T")[0])
     setDueDate("")
     setNotes("")
@@ -169,7 +170,7 @@ export function LendFormDialog({ children }: LendFormDialogProps) {
                   className="pl-7 text-xs"
                 />
                 <span className="absolute top-1/2 left-2.5 -translate-y-1/2 text-xs text-muted-foreground">
-                  $
+                  {getCurrencySymbol(currency)}
                 </span>
               </div>
             </div>
@@ -178,15 +179,19 @@ export function LendFormDialog({ children }: LendFormDialogProps) {
               <Label htmlFor="currency" className="text-xs font-medium">
                 Currency
               </Label>
-              <Input
+              <select
                 id="currency"
                 value={currency}
-                onChange={(e) => setCurrency(e.target.value.toUpperCase())}
+                onChange={(e) => setCurrency(e.target.value)}
                 disabled={loading}
-                placeholder="USD"
-                maxLength={4}
-                className="text-xs uppercase"
-              />
+                className="h-9 w-full rounded-4xl border border-input bg-input/30 px-3 py-1 text-xs outline-none cursor-pointer focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50"
+              >
+                {CURRENCIES.map((c) => (
+                  <option key={c.code} value={c.code} className="bg-popover text-foreground">
+                    {c.label}
+                  </option>
+                ))}
+              </select>
             </div>
 
             <div className="space-y-1.5">
