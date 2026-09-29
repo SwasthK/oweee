@@ -4,7 +4,6 @@ import { Card } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import {
-  CoinStack,
   CheckCircle,
   Clock,
   Calendar,
@@ -12,6 +11,7 @@ import {
 } from "@/components/ui/icons"
 import { cn } from "@/lib/utils"
 import { ThemeToggle } from "@/components/layout/theme-toggle"
+import { Logo } from "@/components/layout/logo"
 import { useIsOverdue } from "@/hooks/use-is-overdue"
 import { formatMoney, getCurrencySymbol } from "@/lib/currency"
 
@@ -79,17 +79,7 @@ export function PublicLendView({ lend }: PublicLendViewProps) {
     <div className="mx-auto w-full max-w-xl space-y-6 px-4 py-6">
       {/* Top Brand Bar */}
       <div className="flex items-center justify-between">
-        <Link
-          href="/"
-          className="group inline-flex items-center gap-2 select-none"
-        >
-          <div className="flex size-8 items-center justify-center rounded-lg border border-border/80 bg-muted/60 text-foreground transition-colors group-hover:border-foreground/20 group-hover:bg-muted">
-            <CoinStack className="size-4.5 text-foreground" />
-          </div>
-          <span className="font-heading text-sm font-semibold tracking-tight text-foreground">
-            Oweee
-          </span>
-        </Link>
+        <Logo />
 
         <div className="flex items-center gap-2">
           <ThemeToggle />

@@ -1,26 +1,58 @@
 "use client"
 
 import Link from "next/link"
-import { CoinStack } from "@/components/ui/icons"
+import Image from "next/image"
 import { cn } from "@/lib/utils"
 
-export function Logo({ className }: { className?: string }) {
+export function Logo({
+  className,
+  showText = true,
+  size = "md",
+}: {
+  className?: string
+  showText?: boolean
+  size?: "sm" | "md" | "lg"
+}) {
+  const sizeMap = {
+    sm: { box: "size-7", img: 24, text: "text-xs" },
+    md: { box: "size-8.5", img: 30, text: "text-sm" },
+    lg: { box: "size-11", img: 40, text: "text-base" },
+  }
+  const current = sizeMap[size]
+
   return (
     <Link
       href="/"
       className={cn(
-        "group inline-flex items-center gap-2 select-none",
+        "group inline-flex items-center gap-2.5 select-none transition-opacity hover:opacity-90",
         className
       )}
     >
-      <div className="flex size-8 items-center justify-center rounded-lg border border-border/80 bg-muted/60 text-foreground transition-colors group-hover:border-foreground/20 group-hover:bg-muted">
-        <CoinStack className="size-4.5 text-foreground" />
+      <div
+        className={cn(
+          "relative flex items-center justify-center overflow-hidden p-0.5 transition-all group-hover:scale-105 group-hover:ring-emerald-500/30 hover:rotate-6 hover:cursor-pointer",
+          current.box
+        )}
+      >
+        <Image
+          src="/logo/oweee-1.png"
+          alt="Oweee"
+          width={current.img}
+          height={current.img}
+          className="object-contain"
+          priority
+        />
       </div>
-      <div className="flex flex-col">
-        <span className="font-heading text-sm font-semibold tracking-tight text-foreground">
+      {showText && (
+        <span
+          className={cn(
+            "font-heading font-bold tracking-tight text-foreground",
+            current.text
+          )}
+        >
           Oweee
         </span>
-      </div>
+      )}
     </Link>
   )
 }

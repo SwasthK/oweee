@@ -3,7 +3,7 @@ import { Metadata } from "next"
 import { getPublicLendByToken } from "@/lib/actions/public-lend"
 import { PublicLendView } from "@/components/share/public-lend-view"
 import { Button } from "@/components/ui/button"
-import { CoinStack } from "@/components/ui/icons"
+import { Logo } from "@/components/layout/logo"
 import { formatMoney } from "@/lib/currency"
 
 interface PageProps {
@@ -40,8 +40,8 @@ export default async function PublicSharePage({ params }: PageProps) {
     return (
       <div className="flex min-h-svh flex-col items-center justify-center bg-background p-6 text-center">
         <div className="w-full max-w-sm space-y-4">
-          <div className="mx-auto flex size-12 items-center justify-center rounded-2xl border border-border bg-muted">
-            <CoinStack className="size-6 text-muted-foreground" />
+          <div className="flex justify-center">
+            <Logo size="lg" />
           </div>
 
           <div className="space-y-1">

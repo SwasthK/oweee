@@ -16,6 +16,15 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 import { AddCircle, AlertTriangle } from "@/components/ui/icons"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+import { DatePicker } from "@/components/ui/date-picker"
+import { Spinner } from "@/components/ui/spinner"
 import { CURRENCIES, DEFAULT_CURRENCY, getCurrencySymbol } from "@/lib/currency"
 
 interface LendFormDialogProps {
@@ -32,10 +41,8 @@ export function LendFormDialog({ children }: LendFormDialogProps) {
   const [borrowerContact, setBorrowerContact] = React.useState("")
   const [amount, setAmount] = React.useState("")
   const [currency, setCurrency] = React.useState(DEFAULT_CURRENCY)
-  const [lentAt, setLentAt] = React.useState(
-    new Date().toISOString().split("T")[0]
-  )
-  const [dueDate, setDueDate] = React.useState("")
+  const [lentAt, setLentAt] = React.useState<Date | undefined>(new Date())
+  const [dueDate, setDueDate] = React.useState<Date | undefined>(undefined)
   const [notes, setNotes] = React.useState("")
   const [isPublic, setIsPublic] = React.useState(false)
 
@@ -44,8 +51,8 @@ export function LendFormDialog({ children }: LendFormDialogProps) {
     setBorrowerContact("")
     setAmount("")
     setCurrency(DEFAULT_CURRENCY)
-    setLentAt(new Date().toISOString().split("T")[0])
-    setDueDate("")
+    setLentAt(new Date())
+    setDueDate(undefined)
     setNotes("")
     setIsPublic(false)
     setError(null)
@@ -74,8 +81,8 @@ export function LendFormDialog({ children }: LendFormDialogProps) {
         borrowerContact: borrowerContact.trim() || undefined,
         amount: numAmount,
         currency,
-        lentAt: new Date(lentAt),
-        dueDate: dueDate ? new Date(dueDate) : undefined,
+        lentAt: lentAt || new Date(),
+        dueDate: dueDate || undefined,
         notes: notes.trim() || undefined,
         isPublic,
       })
@@ -179,32 +186,37 @@ export function LendFormDialog({ children }: LendFormDialogProps) {
               <Label htmlFor="currency" className="text-xs font-medium">
                 Currency
               </Label>
-              <select
-                id="currency"
+              <Select
                 value={currency}
-                onChange={(e) => setCurrency(e.target.value)}
+                onValueChange={(val) => {
+                  if (val) setCurrency(val)
+                }}
                 disabled={loading}
-                className="h-9 w-full rounded-4xl border border-input bg-input/30 px-3 py-1 text-xs outline-none cursor-pointer focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50"
               >
-                {CURRENCIES.map((c) => (
-                  <option key={c.code} value={c.code} className="bg-popover text-foreground">
-                    {c.label}
-                  </option>
-                ))}
-              </select>
+                <SelectTrigger id="currency" className="w-full text-xs">
+                  <SelectValue placeholder="Select currency">
+                    {CURRENCIES.find((c) => c.code === currency)?.label || currency}
+                  </SelectValue>
+                </SelectTrigger>
+                <SelectContent className="max-h-60">
+                  {CURRENCIES.map((c) => (
+                    <SelectItem key={c.code} value={c.code} className="text-xs">
+                      {c.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
 
             <div className="space-y-1.5">
               <Label htmlFor="lentAt" className="text-xs font-medium">
                 Date Lent
               </Label>
-              <Input
+              <DatePicker
                 id="lentAt"
-                type="date"
-                value={lentAt}
-                onChange={(e) => setLentAt(e.target.value)}
+                date={lentAt}
+                setDate={setLentAt}
                 disabled={loading}
-                className="text-xs"
               />
             </div>
 
@@ -212,13 +224,13 @@ export function LendFormDialog({ children }: LendFormDialogProps) {
               <Label htmlFor="dueDate" className="text-xs font-medium">
                 Due Date (Optional)
               </Label>
-              <Input
+              <DatePicker
                 id="dueDate"
-                type="date"
-                value={dueDate}
-                onChange={(e) => setDueDate(e.target.value)}
+                date={dueDate}
+                setDate={setDueDate}
+                placeholder="No due date"
+                clearable
                 disabled={loading}
-                className="text-xs"
               />
             </div>
 
@@ -283,9 +295,16 @@ export function LendFormDialog({ children }: LendFormDialogProps) {
               type="submit"
               size="sm"
               disabled={loading}
-              className="text-xs"
+              className="gap-1.5 text-xs"
             >
-              {loading ? "Saving..." : "Create Lend"}
+              {loading ? (
+                <>
+                  <Spinner size="xs" />
+                  <span>Creating...</span>
+                </>
+              ) : (
+                "Create Lend"
+              )}
             </Button>
           </DialogFooter>
         </form>

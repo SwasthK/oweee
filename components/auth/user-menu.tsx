@@ -1,9 +1,20 @@
 "use client"
 
 import * as React from "react"
+import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { signOut, useSession } from "@/lib/auth-client"
-import { Button } from "@/components/ui/button"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import { Skeleton } from "@/components/ui/skeleton"
+import { Spinner } from "@/components/ui/spinner"
 import { User as UserIcon } from "@/components/ui/icons"
 
 export function UserMenu() {
@@ -12,9 +23,7 @@ export function UserMenu() {
   const [signingOut, setSigningOut] = React.useState(false)
 
   if (isPending) {
-    return (
-      <div className="size-8 animate-pulse rounded-full border border-border bg-muted/60" />
-    )
+    return <Skeleton className="h-8 w-28 rounded-full" />
   }
 
   if (!session?.user) {
@@ -38,41 +47,85 @@ export function UserMenu() {
     : "U"
 
   return (
-    <div className="flex items-center gap-3">
-      <div className="flex items-center gap-2 pl-2">
-        <div className="flex size-7 items-center justify-center rounded-full border border-primary/20 bg-primary/10 text-xs font-medium text-primary">
-          {session.user.image ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
-              src={session.user.image}
-              alt={session.user.name || "User"}
-              className="size-7 rounded-full object-cover"
-            />
-          ) : initials ? (
-            <span>{initials}</span>
-          ) : (
-            <UserIcon className="size-3.5" />
-          )}
-        </div>
-        <div className="hidden flex-col text-left sm:flex">
-          <span className="text-xs leading-none font-medium text-foreground">
-            {session.user.name}
-          </span>
-          <span className="mt-0.5 max-w-[140px] truncate text-[10px] leading-none text-muted-foreground">
-            {session.user.email}
-          </span>
-        </div>
-      </div>
+    <DropdownMenu>
+      <DropdownMenuTrigger
+        render={
+          <button
+            type="button"
+            className="group flex cursor-pointer items-center gap-2 rounded-full border border-border/70 bg-card/60 py-1 pr-2.5 pl-1 text-xs transition-colors hover:border-border hover:bg-muted/60 focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 outline-none"
+          >
+            <div className="flex size-6 items-center justify-center rounded-full bg-primary/10 text-[10px] font-semibold text-primary">
+              {session.user.image ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  src={session.user.image}
+                  alt={session.user.name || "User"}
+                  className="size-6 rounded-full object-cover"
+                />
+              ) : initials ? (
+                <span>{initials}</span>
+              ) : (
+                <UserIcon className="size-3" />
+              )}
+            </div>
+            <span className="hidden max-w-[120px] truncate font-medium text-foreground sm:inline-block">
+              {session.user.name || session.user.email}
+            </span>
+          </button>
+        }
+      />
 
-      <Button
-        variant="ghost"
-        size="xs"
-        className="rounded-md text-xs text-muted-foreground hover:bg-muted/80 hover:text-foreground"
-        onClick={handleSignOut}
-        disabled={signingOut}
-      >
-        {signingOut ? "..." : "Sign out"}
-      </Button>
-    </div>
+      <DropdownMenuContent align="end" className="w-56 p-1.5 shadow-xl">
+        <DropdownMenuLabel className="px-2 py-1.5">
+          <div className="flex flex-col space-y-0.5">
+            <p className="text-xs font-semibold text-foreground">
+              {session.user.name}
+            </p>
+            <p className="text-[11px] text-muted-foreground truncate">
+              {session.user.email}
+            </p>
+          </div>
+        </DropdownMenuLabel>
+
+        <DropdownMenuSeparator className="my-1" />
+
+        <DropdownMenuGroup>
+          <DropdownMenuItem
+            render={
+              <Link href="/" className="w-full text-xs">
+                Dashboard
+              </Link>
+            }
+          />
+        </DropdownMenuGroup>
+
+        <DropdownMenuSeparator className="my-1" />
+
+        <div className="px-2 py-1 text-[11px] text-muted-foreground flex items-center justify-between">
+          <span>Theme toggle</span>
+          <kbd className="rounded border border-border px-1 py-0.5 text-[10px] font-mono">
+            d
+          </kbd>
+        </div>
+
+        <DropdownMenuSeparator className="my-1" />
+
+        <DropdownMenuItem
+          variant="destructive"
+          onClick={handleSignOut}
+          disabled={signingOut}
+          className="text-xs"
+        >
+          {signingOut ? (
+            <span className="flex items-center gap-1.5">
+              <Spinner size="xs" />
+              <span>Signing out...</span>
+            </span>
+          ) : (
+            <span>Sign out</span>
+          )}
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
   )
 }

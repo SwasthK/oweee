@@ -1,4 +1,5 @@
 import Link from "next/link"
+import Image from "next/image"
 import { headers } from "next/headers"
 import { auth } from "@/lib/auth"
 import { getLends, getLendMetrics } from "@/lib/actions/lends"
@@ -40,10 +41,23 @@ export default async function HomePage() {
             userName={session.user.name}
           />
         ) : (
-          <div className="my-auto flex w-full max-w-3xl flex-col items-center space-y-8 text-center">
-            <div className="inline-flex items-center gap-1.5 rounded-full border border-border/60 bg-muted/40 px-3 py-1 text-xs text-muted-foreground">
-              <CoinStack className="size-3.5 text-foreground" />
-              <span>Personal lending, tracked simply</span>
+          <div className="my-auto flex w-full max-w-3xl flex-col items-center space-y-6 text-center">
+            <div className="flex flex-col items-center gap-3">
+              <div className="flex size-20 items-center justify-center p-2 transition-transform hover:scale-105 hover:rotate-6 hover:cursor-pointer">
+                <Image
+                  src="/logo/oweee-1.png"
+                  alt="Oweee mascot"
+                  width={68}
+                  height={68}
+                  className="object-contain"
+                  priority
+                />
+              </div>
+
+              <div className="inline-flex items-center gap-1.5 rounded-full border border-border/60 bg-muted/40 px-3 py-1 text-xs text-muted-foreground">
+                <CoinStack className="size-3.5 text-foreground" />
+                <span>Personal lending, tracked simply</span>
+              </div>
             </div>
 
             <div className="max-w-xl space-y-3">

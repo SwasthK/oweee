@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/dialog"
 import { AlertTriangle, CheckCircle } from "@/components/ui/icons"
 import { Lend } from "@/types/lend"
+import { Spinner } from "@/components/ui/spinner"
 import { formatMoney, getCurrencySymbol } from "@/lib/currency"
 
 interface PaymentDialogProps {
@@ -171,8 +172,17 @@ function PaymentForm({
             disabled={loading}
             className="gap-1.5 text-xs"
           >
-            <CheckCircle className="size-3.5" />
-            <span>{loading ? "Recording..." : "Save Payment"}</span>
+            {loading ? (
+              <>
+                <Spinner size="xs" />
+                <span>Recording...</span>
+              </>
+            ) : (
+              <>
+                <CheckCircle className="size-3.5" />
+                <span>Save Payment</span>
+              </>
+            )}
           </Button>
         </DialogFooter>
       </form>
