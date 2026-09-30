@@ -25,7 +25,7 @@ import {
 } from "@/components/ui/select"
 import { DatePicker } from "@/components/ui/date-picker"
 import { Spinner } from "@/components/ui/spinner"
-import { CURRENCIES, DEFAULT_CURRENCY, getCurrencySymbol } from "@/lib/currency"
+import { CURRENCIES, DEFAULT_CURRENCY, getCurrencySymbol, saveCurrency } from "@/lib/currency"
 
 interface EditLendDialogProps {
   lend: Lend
@@ -50,12 +50,16 @@ function EditLendForm({
   const [borrowerContact, setBorrowerContact] = React.useState(
     lend.borrowerContact || ""
   )
-  const [amount, setAmount] = React.useState(lend.amount)
+  const [amount, setAmount] = React.useState(() => {
+    const num = parseFloat(lend.amount)
+    return !isNaN(num) && num % 1 === 0 ? num.toString() : lend.amount
+  })
   const [currency, setCurrency] = React.useState(lend.currency || DEFAULT_CURRENCY)
   const [dueDate, setDueDate] = React.useState<Date | undefined>(
     lend.dueDate ? new Date(lend.dueDate) : undefined
   )
   const [notes, setNotes] = React.useState(lend.notes || "")
+  const [isPublic, setIsPublic] = React.useState(lend.isPublic ?? false)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -83,6 +87,7 @@ function EditLendForm({
         currency,
         dueDate: dueDate ? dueDate : null,
         notes: notes.trim() || undefined,
+        isPublic,
       })
 
       if (res.success) {
@@ -131,8 +136,9 @@ function EditLendForm({
               <Input
                 id="editAmount"
                 type="number"
-                step="0.01"
-                min="0.01"
+                step="any"
+                min="1"
+                placeholder="0"
                 required
                 value={amount}
                 onChange={(e) => setAmount(e.target.value)}
@@ -152,7 +158,10 @@ function EditLendForm({
             <Select
               value={currency}
               onValueChange={(val) => {
-                if (val) setCurrency(val)
+                if (val) {
+                  setCurrency(val)
+                  saveCurrency(val)
+                }
               }}
               disabled={loading}
             >
@@ -212,6 +221,23 @@ function EditLendForm({
             disabled={loading}
             className="text-xs"
           />
+        </div>
+
+        <div className="flex items-center gap-2 pt-1">
+          <input
+            type="checkbox"
+            id="editIsPublic"
+            checked={isPublic}
+            onChange={(e) => setIsPublic(e.target.checked)}
+            disabled={loading}
+            className="size-3.5 rounded border-border text-primary focus:ring-ring cursor-pointer"
+          />
+          <Label
+            htmlFor="editIsPublic"
+            className="cursor-pointer text-xs font-normal text-muted-foreground select-none"
+          >
+            Enable public share link
+          </Label>
         </div>
       </div>
 

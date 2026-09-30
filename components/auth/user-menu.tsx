@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Spinner } from "@/components/ui/spinner"
-import { User as UserIcon } from "@/components/ui/icons"
+import { User as UserIcon, Dashboard } from "@/components/ui/icons"
 
 export function UserMenu() {
   const router = useRouter()
@@ -94,8 +94,9 @@ export function UserMenu() {
         <DropdownMenuGroup>
           <DropdownMenuItem
             render={
-              <Link href="/" className="w-full text-xs">
-                Dashboard
+              <Link href="/" className="flex items-center gap-2 w-full text-xs">
+                <Dashboard className="size-3.5 text-muted-foreground" />
+                <span>Dashboard</span>
               </Link>
             }
           />

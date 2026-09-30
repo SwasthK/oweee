@@ -2,6 +2,7 @@ import { Geist_Mono, Figtree } from "next/font/google"
 
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
+import { TooltipProvider } from "@/components/ui/tooltip"
 import { cn } from "@/lib/utils"
 
 import { Metadata } from "next"
@@ -40,7 +41,9 @@ export default function RootLayout({
       )}
     >
       <body>
-        <ThemeProvider>{children}</ThemeProvider>
+        <ThemeProvider>
+          <TooltipProvider delay={150}>{children}</TooltipProvider>
+        </ThemeProvider>
       </body>
     </html>
   )

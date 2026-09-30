@@ -21,8 +21,10 @@ import {
 import {
   type Lend,
   type LendMetrics,
+  type CurrencyMetric,
   type LendWithAuditLogs,
 } from "@/types/lend"
+import { DEFAULT_CURRENCY } from "@/lib/currency"
 import { and, desc, eq, ilike, isNull, or } from "drizzle-orm"
 
 async function getAuthUser() {
@@ -73,31 +75,62 @@ export async function getLendMetrics(): Promise<LendMetrics> {
     .from(lends)
     .where(and(eq(lends.userId, user.id), isNull(lends.deletedAt)))
 
-  let totalLent = 0
-  let totalPaid = 0
   let activeCount = 0
   let closedCount = 0
+  const byCurrency: Record<string, CurrencyMetric> = {}
 
   for (const item of allLends) {
     const amount = Number(item.amount) || 0
     const paid = Number(item.paidAmount) || 0
+    const curr = (item.currency || DEFAULT_CURRENCY).toUpperCase()
 
-    totalLent += amount
-    totalPaid += paid
+    if (!byCurrency[curr]) {
+      byCurrency[curr] = {
+        currency: curr,
+        totalLent: 0,
+        totalPaid: 0,
+        totalOutstanding: 0,
+        activeCount: 0,
+        closedCount: 0,
+      }
+    }
+
+    byCurrency[curr].totalLent += amount
+    byCurrency[curr].totalPaid += paid
+    byCurrency[curr].totalOutstanding = Math.max(
+      0,
+      byCurrency[curr].totalLent - byCurrency[curr].totalPaid
+    )
 
     if (item.status === "closed") {
+      byCurrency[curr].closedCount++
       closedCount++
     } else {
+      byCurrency[curr].activeCount++
       activeCount++
     }
   }
 
+  const currencies = Object.keys(byCurrency)
+  const primaryCurrency = currencies[0] || DEFAULT_CURRENCY
+  const primaryMetric = byCurrency[primaryCurrency] || {
+    currency: primaryCurrency,
+    totalLent: 0,
+    totalPaid: 0,
+    totalOutstanding: 0,
+    activeCount: 0,
+    closedCount: 0,
+  }
+
   return {
-    totalLent,
-    totalPaid,
-    totalOutstanding: Math.max(0, totalLent - totalPaid),
+    totalLent: primaryMetric.totalLent,
+    totalPaid: primaryMetric.totalPaid,
+    totalOutstanding: primaryMetric.totalOutstanding,
     activeCount,
     closedCount,
+    byCurrency,
+    currencies,
+    primaryCurrency,
   }
 }
 

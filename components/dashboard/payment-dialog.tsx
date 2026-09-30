@@ -41,8 +41,10 @@ function PaymentForm({
   const totalAmount = Number(lend.amount) || 0
   const paidAmount = Number(lend.paidAmount) || 0
   const remaining = Math.max(0, totalAmount - paidAmount)
+  const formatPaymentInput = (val: number) =>
+    val % 1 === 0 ? val.toString() : val.toFixed(2)
 
-  const [amount, setAmount] = React.useState(remaining.toFixed(2))
+  const [amount, setAmount] = React.useState(() => formatPaymentInput(remaining))
   const [note, setNote] = React.useState("")
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -116,7 +118,7 @@ function PaymentForm({
             </Label>
             <button
               type="button"
-              onClick={() => setAmount(remaining.toFixed(2))}
+              onClick={() => setAmount(formatPaymentInput(remaining))}
               className="cursor-pointer text-[11px] font-medium text-primary hover:underline"
             >
               Pay Full ({formatMoney(remaining, lend.currency)})
@@ -126,9 +128,9 @@ function PaymentForm({
             <Input
               id="paymentAmount"
               type="number"
-              step="0.01"
-              min="0.01"
-              placeholder="0.00"
+              step="any"
+              min="1"
+              placeholder="0"
               required
               value={amount}
               onChange={(e) => setAmount(e.target.value)}

@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Cookie&display=swap");
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
@@ -136,5 +137,22 @@
   select:not(:disabled),
   a:not([aria-disabled="true"]) {
     cursor: pointer;
+  }
+}
+
+@layer utilities {
+  .landing-grid {
+    background-image: 
+      linear-gradient(to right, currentColor 1px, transparent 1px),
+      linear-gradient(to bottom, currentColor 1px, transparent 1px);
+    background-size: 28px 28px;
+  }
+  .landing-dots {
+    background-image: radial-gradient(circle at 1px 1px, currentColor 1px, transparent 0);
+    background-size: 20px 20px;
+  }
+  .mask-radial-fade {
+    mask-image: radial-gradient(ellipse 75% 65% at 50% 25%, black 40%, transparent 100%);
+    -webkit-mask-image: radial-gradient(ellipse 75% 65% at 50% 25%, black 40%, transparent 100%);
   }
 }

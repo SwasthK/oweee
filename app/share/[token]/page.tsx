@@ -4,6 +4,7 @@ import { getPublicLendByToken } from "@/lib/actions/public-lend"
 import { PublicLendView } from "@/components/share/public-lend-view"
 import { Button } from "@/components/ui/button"
 import { Logo } from "@/components/layout/logo"
+import { Footer } from "@/components/layout/footer"
 import { formatMoney } from "@/lib/currency"
 
 interface PageProps {
@@ -69,6 +70,7 @@ export default async function PublicSharePage({ params }: PageProps) {
       <main className="flex flex-1 flex-col items-center">
         <PublicLendView lend={lend} />
       </main>
+      <Footer className="py-8" />
     </div>
   )
 }

@@ -1,3 +1,5 @@
+"use client"
+
 import * as React from "react"
 import Link from "next/link"
 import { Card } from "@/components/ui/card"
@@ -13,7 +15,7 @@ import { cn } from "@/lib/utils"
 import { ThemeToggle } from "@/components/layout/theme-toggle"
 import { Logo } from "@/components/layout/logo"
 import { useIsOverdue } from "@/hooks/use-is-overdue"
-import { formatMoney, getCurrencySymbol } from "@/lib/currency"
+import { formatMoney } from "@/lib/currency"
 
 import { AuditLogDetails } from "@/types/lend"
 
@@ -226,7 +228,7 @@ export function PublicLendView({ lend }: PublicLendViewProps) {
               <span>Payment & Status History</span>
             </div>
 
-            <div className="space-y-2">
+            <div className="space-y-2 max-h-[380px] overflow-y-auto pr-1">
               {publicActivity.map((log) => {
                 const details = log.details || {}
                 const date = new Date(log.createdAt).toLocaleDateString(
@@ -253,8 +255,7 @@ export function PublicLendView({ lend }: PublicLendViewProps) {
                       {log.action === "payment_recorded" && (
                         <div className="space-y-0.5">
                           <span className="font-medium text-emerald-600 dark:text-emerald-400">
-                            +{getCurrencySymbol(lend.currency)}
-                            {Number(details.paymentAmount || 0).toFixed(2)}{" "}
+                            +{formatMoney(details.paymentAmount || 0, lend.currency)}{" "}
                             payment logged
                           </span>
                           {details.note && (

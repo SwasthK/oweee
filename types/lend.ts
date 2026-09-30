@@ -29,12 +29,24 @@ export type NewLendAuditLog = InferInsertModel<typeof lendAuditLogs>
 
 export type LendStatus = "open" | "partial" | "closed"
 
+export interface CurrencyMetric {
+  currency: string
+  totalLent: number
+  totalPaid: number
+  totalOutstanding: number
+  activeCount: number
+  closedCount: number
+}
+
 export interface LendMetrics {
   totalLent: number
   totalPaid: number
   totalOutstanding: number
   activeCount: number
   closedCount: number
+  byCurrency?: Record<string, CurrencyMetric>
+  currencies?: string[]
+  primaryCurrency?: string
 }
 
 export interface LendWithAuditLogs extends Lend {

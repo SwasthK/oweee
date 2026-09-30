@@ -1,24 +1,39 @@
 "use client"
 
 import * as React from "react"
-import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { Lend } from "@/types/lend"
-import { deleteLendAction, toggleShareAction } from "@/lib/actions/lends"
+import { deleteLendAction } from "@/lib/actions/lends"
 import { Card } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import {
   Clock,
   CheckCircle,
-  ShareIcon,
+  LinkIcon,
   TrashIcon,
-  CheckIcon,
-  ExternalLinkIcon,
   Calendar,
+  ChevronRightIcon,
 } from "@/components/ui/icons"
 import { useIsOverdue } from "@/hooks/use-is-overdue"
 import { formatMoney } from "@/lib/currency"
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog"
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
+import { Spinner } from "@/components/ui/spinner"
+import { ShareLendDialog } from "@/components/lends/share-lend-dialog"
 import { cn } from "@/lib/utils"
 
 interface LendCardProps {
@@ -28,7 +43,7 @@ interface LendCardProps {
 
 export function LendCard({ lend, onRecordPayment }: LendCardProps) {
   const router = useRouter()
-  const [copied, setCopied] = React.useState(false)
+  const [shareOpen, setShareOpen] = React.useState(false)
   const [isDeleting, setIsDeleting] = React.useState(false)
 
   const totalAmount = Number(lend.amount) || 0
@@ -44,37 +59,13 @@ export function LendCard({ lend, onRecordPayment }: LendCardProps) {
 
   const isOverdue = useIsOverdue(lend.dueDate, isClosed)
 
-  const handleCopyShareLink = async (e: React.MouseEvent) => {
-    e.preventDefault()
-    e.stopPropagation()
+  const [deleteOpen, setDeleteOpen] = React.useState(false)
 
-    // Ensure public sharing is enabled if copying
-    if (!lend.isPublic) {
-      await toggleShareAction({ lendId: lend.id, isPublic: true })
-    }
-
-    const shareUrl = `${window.location.origin}/share/${lend.shareToken}`
-    await navigator.clipboard.writeText(shareUrl)
-    setCopied(true)
-    setTimeout(() => setCopied(false), 2000)
-    router.refresh()
-  }
-
-  const handleDelete = async (e: React.MouseEvent) => {
-    e.preventDefault()
-    e.stopPropagation()
-
-    if (
-      !confirm(
-        `Are you sure you want to delete the lend for ${lend.borrowerName}?`
-      )
-    ) {
-      return
-    }
-
+  const handleConfirmDelete = async () => {
     setIsDeleting(true)
     try {
       await deleteLendAction(lend.id)
+      setDeleteOpen(false)
       router.refresh()
     } catch (err) {
       console.error(err)
@@ -96,8 +87,38 @@ export function LendCard({ lend, onRecordPayment }: LendCardProps) {
       })
     : null
 
+  const handleCardClick = (e: React.MouseEvent) => {
+    const target = e.target as HTMLElement
+    if (
+      target.closest("button") ||
+      target.closest("a") ||
+      target.closest("[role='dialog']") ||
+      target.closest("[data-slot='alert-dialog-content']")
+    ) {
+      return
+    }
+    router.push(`/lends/${lend.id}`)
+  }
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter" || e.key === " ") {
+      const target = e.target as HTMLElement
+      if (target.closest("button") || target.closest("a")) {
+        return
+      }
+      e.preventDefault()
+      router.push(`/lends/${lend.id}`)
+    }
+  }
+
   return (
-    <Card className="group relative overflow-hidden border-border/70 bg-card/60 p-4 transition-all hover:border-foreground/20 hover:shadow-xs">
+    <Card
+      role="button"
+      tabIndex={0}
+      onClick={handleCardClick}
+      onKeyDown={handleKeyDown}
+      className="group relative cursor-pointer overflow-hidden border-border/70 bg-card/60 p-4 transition-all hover:border-foreground/30 hover:bg-card/90 hover:shadow-xs focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring"
+    >
       <div className="flex flex-col gap-3">
         {/* Top Header Row */}
         <div className="flex items-start justify-between gap-3">
@@ -108,20 +129,9 @@ export function LendCard({ lend, onRecordPayment }: LendCardProps) {
 
             <div className="min-w-0">
               <div className="flex items-center gap-2">
-                <Link
-                  href={`/lends/${lend.id}`}
-                  className="truncate text-sm font-medium text-foreground hover:underline"
-                >
+                <span className="truncate text-sm font-semibold text-foreground transition-colors group-hover:text-primary">
                   {lend.borrowerName}
-                </Link>
-                {lend.isPublic && (
-                  <Badge
-                    variant="outline"
-                    className="h-4 border-border/50 px-1 text-[9px] text-muted-foreground"
-                  >
-                    Public
-                  </Badge>
-                )}
+                </span>
               </div>
 
               {lend.borrowerContact && (
@@ -224,51 +234,105 @@ export function LendCard({ lend, onRecordPayment }: LendCardProps) {
               <Button
                 variant="outline"
                 size="xs"
-                onClick={() => onRecordPayment(lend)}
-                className="h-6.5 rounded-md px-2 text-[11px] hover:border-foreground/30"
+                onClick={(e) => {
+                  e.stopPropagation()
+                  onRecordPayment(lend)
+                }}
+                className="h-6.5 rounded-md px-2 text-[11px] hover:border-foreground/30 cursor-pointer"
               >
                 Record Payment
               </Button>
             )}
 
-            {/* Quick Share Button */}
-            <Button
-              variant="ghost"
-              size="icon-xs"
-              onClick={handleCopyShareLink}
-              title={copied ? "Copied public link!" : "Copy public share link"}
-              className="size-6.5 text-muted-foreground hover:text-foreground"
-            >
-              {copied ? (
-                <CheckIcon className="size-3 text-emerald-500" />
-              ) : (
-                <ShareIcon className="size-3" />
-              )}
-            </Button>
-
-            {/* View Details Link */}
-            <Link
-              href={`/lends/${lend.id}`}
-              className="inline-flex size-6.5 items-center justify-center rounded-md text-muted-foreground hover:bg-muted/80 hover:text-foreground"
-              title="View timeline & audit log"
-            >
-              <ExternalLinkIcon className="size-3" />
-            </Link>
+            {/* Quick Share Link Button */}
+            <Tooltip>
+              <TooltipTrigger
+                render={
+                  <Button
+                    variant="ghost"
+                    size="icon-xs"
+                    onClick={(e) => {
+                      e.preventDefault()
+                      e.stopPropagation()
+                      setShareOpen(true)
+                    }}
+                    className="size-7 text-muted-foreground hover:text-foreground cursor-pointer"
+                  >
+                    <LinkIcon className="size-3.5" />
+                  </Button>
+                }
+              />
+              <TooltipContent>Share public link</TooltipContent>
+            </Tooltip>
 
             {/* Delete Button */}
-            <Button
-              variant="ghost"
-              size="icon-xs"
-              onClick={handleDelete}
-              disabled={isDeleting}
-              title="Delete lend"
-              className="size-6.5 text-muted-foreground hover:text-destructive"
-            >
-              <TrashIcon className="size-3" />
-            </Button>
+            <Tooltip>
+              <TooltipTrigger
+                render={
+                  <Button
+                    variant="ghost"
+                    size="icon-xs"
+                    onClick={(e) => {
+                      e.preventDefault()
+                      e.stopPropagation()
+                      setDeleteOpen(true)
+                    }}
+                    disabled={isDeleting}
+                    className="size-7 text-muted-foreground hover:text-destructive cursor-pointer"
+                  >
+                    <TrashIcon className="size-3.5" />
+                  </Button>
+                }
+              />
+              <TooltipContent>Delete lend</TooltipContent>
+            </Tooltip>
+
+            {/* Chevron indicator to view details */}
+            <div className="flex items-center pl-1 text-muted-foreground/40 transition-all duration-200 group-hover:translate-x-0.5 group-hover:text-foreground">
+              <ChevronRightIcon className="size-3.5" />
+            </div>
           </div>
         </div>
       </div>
+
+      {/* Delete Confirmation Modal */}
+      <AlertDialog open={deleteOpen} onOpenChange={setDeleteOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Delete Lend Record</AlertDialogTitle>
+            <AlertDialogDescription>
+              Are you sure you want to delete the loan for{" "}
+              <strong className="text-foreground">{lend.borrowerName}</strong>?
+              This record will be moved to deleted and hidden from your active dashboard.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel disabled={isDeleting}>Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              variant="destructive"
+              onClick={handleConfirmDelete}
+              disabled={isDeleting}
+              className="gap-1.5"
+            >
+              {isDeleting ? (
+                <>
+                  <Spinner size="xs" />
+                  <span>Deleting...</span>
+                </>
+              ) : (
+                "Delete Lend"
+              )}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
+      {/* Share Dialog */}
+      <ShareLendDialog
+        lend={lend}
+        open={shareOpen}
+        onOpenChange={setShareOpen}
+      />
     </Card>
   )
 }

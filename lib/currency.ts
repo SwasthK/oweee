@@ -17,18 +17,60 @@ export const CURRENCIES: CurrencyOption[] = [
 ]
 
 export const DEFAULT_CURRENCY = "INR"
+export const DEFAULT_CURRENCY_STORAGE_KEY = "oweee_default_currency"
 
 export function getCurrencySymbol(code?: string | null): string {
   if (!code) return "₹"
-  const found = CURRENCIES.find((c) => c.code.toUpperCase() === code.toUpperCase())
+  const found = CURRENCIES.find(
+    (c) => c.code.toUpperCase() === code.toUpperCase()
+  )
   return found ? found.symbol : code
 }
 
-export function formatMoney(amount: number | string, currency = DEFAULT_CURRENCY): string {
+export function formatMoney(
+  amount: number | string,
+  currency = DEFAULT_CURRENCY
+): string {
   const num = typeof amount === "string" ? parseFloat(amount) || 0 : amount
   const symbol = getCurrencySymbol(currency)
   return `${symbol}${num.toLocaleString("en-US", {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
+    minimumFractionDigits: 0,
+    maximumFractionDigits: num % 1 === 0 ? 0 : 2,
   })}`
+}
+
+export function getSavedCurrency(): string {
+  if (typeof window === "undefined") return DEFAULT_CURRENCY
+  try {
+    const saved = localStorage.getItem(DEFAULT_CURRENCY_STORAGE_KEY)
+    if (saved && CURRENCIES.some((c) => c.code === saved.toUpperCase())) {
+      return saved.toUpperCase()
+    }
+    const match = document.cookie.match(
+      new RegExp(`(?:^|; )${DEFAULT_CURRENCY_STORAGE_KEY}=([^;]*)`)
+    )
+    if (
+      match &&
+      match[1] &&
+      CURRENCIES.some((c) => c.code === decodeURIComponent(match[1]).toUpperCase())
+    ) {
+      return decodeURIComponent(match[1]).toUpperCase()
+    }
+  } catch {
+    // ignore
+  }
+  return DEFAULT_CURRENCY
+}
+
+export function saveCurrency(currency: string): void {
+  if (typeof window === "undefined" || !currency || currency === "all") return
+  const code = currency.toUpperCase()
+  try {
+    localStorage.setItem(DEFAULT_CURRENCY_STORAGE_KEY, code)
+    document.cookie = `${DEFAULT_CURRENCY_STORAGE_KEY}=${encodeURIComponent(
+      code
+    )}; path=/; max-age=31536000; SameSite=Lax`
+  } catch {
+    // ignore
+  }
 }

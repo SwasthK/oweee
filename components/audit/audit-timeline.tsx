@@ -8,7 +8,7 @@ import {
   ShareIcon,
   TrashIcon,
 } from "@/components/ui/icons"
-import { getCurrencySymbol, DEFAULT_CURRENCY } from "@/lib/currency"
+import { DEFAULT_CURRENCY, formatMoney } from "@/lib/currency"
 import { cn } from "@/lib/utils"
 
 interface AuditTimelineProps {
@@ -17,11 +17,16 @@ interface AuditTimelineProps {
 }
 
 export function AuditTimeline({ logs, currency = DEFAULT_CURRENCY }: AuditTimelineProps) {
-  const symbol = getCurrencySymbol(currency)
   if (logs.length === 0) {
     return (
-      <div className="rounded-xl border border-dashed border-border/70 p-6 text-center text-xs text-muted-foreground">
-        No activity recorded yet.
+      <div className="flex flex-col items-center justify-center rounded-xl border border-dashed border-border/70 py-8 text-center">
+        <div className="flex size-9 items-center justify-center rounded-lg bg-muted text-muted-foreground">
+          <Clipboard className="size-4" />
+        </div>
+        <p className="mt-2 text-xs font-medium text-foreground">No activity recorded yet</p>
+        <p className="text-[11px] text-muted-foreground">
+          Payments and changes will appear here automatically.
+        </p>
       </div>
     )
   }
@@ -137,8 +142,7 @@ export function AuditTimeline({ logs, currency = DEFAULT_CURRENCY }: AuditTimeli
                 <p className="text-xs text-muted-foreground">
                   Original loan of{" "}
                   <span className="font-semibold text-foreground">
-                    {symbol}
-                    {Number(details.amount || 0).toFixed(2)}
+                    {formatMoney(details.amount || 0, currency)}
                   </span>{" "}
                   created for{" "}
                   <span className="font-medium text-foreground">
@@ -149,29 +153,27 @@ export function AuditTimeline({ logs, currency = DEFAULT_CURRENCY }: AuditTimeli
               )}
 
               {log.action === "payment_recorded" && (
-                <div className="space-y-1 text-xs text-muted-foreground">
-                  <p>
-                    Recorded payment of{" "}
-                    <span className="font-semibold text-emerald-600 dark:text-emerald-400">
-                      +{symbol}
-                      {Number(details.paymentAmount || 0).toFixed(2)}
+                <div className="space-y-1.5 pt-0.5">
+                  <div className="flex items-center justify-between">
+                    <span className="font-heading text-sm font-bold text-emerald-600 dark:text-emerald-400">
+                      +{formatMoney(details.paymentAmount || 0, currency)}
                     </span>
-                    .
                     {details.newPaid !== undefined && (
-                      <span>
-                        {" "}
-                        Total paid is now{" "}
-                        <span className="font-medium text-foreground">
-                          {symbol}
-                          {Number(details.newPaid).toFixed(2)}
-                        </span>
-                        .
+                      <span className="font-mono text-[11px] text-muted-foreground">
+                        Cumulative: {formatMoney(details.newPaid, currency)}
                       </span>
                     )}
-                  </p>
-                  {details.newStatus && (
-                    <p className="text-[11px]">
-                      Status transitioned from{" "}
+                  </div>
+
+                  {details.note && (
+                    <div className="rounded-md border border-border/40 bg-muted/40 px-2.5 py-1 text-[11px] text-foreground/90 italic">
+                      &ldquo;{details.note}&rdquo;
+                    </div>
+                  )}
+
+                  {details.newStatus && details.previousStatus !== details.newStatus && (
+                    <p className="text-[11px] text-muted-foreground">
+                      Loan status transitioned from{" "}
                       <span className="font-medium text-foreground capitalize">
                         {details.previousStatus}
                       </span>{" "}
@@ -180,11 +182,6 @@ export function AuditTimeline({ logs, currency = DEFAULT_CURRENCY }: AuditTimeli
                         {details.newStatus}
                       </span>
                       .
-                    </p>
-                  )}
-                  {details.note && (
-                    <p className="text-[11px] text-muted-foreground/80 italic">
-                      Note: &ldquo;{details.note}&rdquo;
                     </p>
                   )}
                 </div>

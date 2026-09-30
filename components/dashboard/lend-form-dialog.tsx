@@ -25,13 +25,14 @@ import {
 } from "@/components/ui/select"
 import { DatePicker } from "@/components/ui/date-picker"
 import { Spinner } from "@/components/ui/spinner"
-import { CURRENCIES, DEFAULT_CURRENCY, getCurrencySymbol } from "@/lib/currency"
+import { CURRENCIES, DEFAULT_CURRENCY, getCurrencySymbol, getSavedCurrency, saveCurrency } from "@/lib/currency"
 
 interface LendFormDialogProps {
   children?: React.ReactNode
+  defaultCurrency?: string
 }
 
-export function LendFormDialog({ children }: LendFormDialogProps) {
+export function LendFormDialog({ children, defaultCurrency }: LendFormDialogProps) {
   const router = useRouter()
   const [open, setOpen] = React.useState(false)
   const [loading, setLoading] = React.useState(false)
@@ -40,7 +41,9 @@ export function LendFormDialog({ children }: LendFormDialogProps) {
   const [borrowerName, setBorrowerName] = React.useState("")
   const [borrowerContact, setBorrowerContact] = React.useState("")
   const [amount, setAmount] = React.useState("")
-  const [currency, setCurrency] = React.useState(DEFAULT_CURRENCY)
+  const [currency, setCurrency] = React.useState(() => {
+    return defaultCurrency || (typeof window !== "undefined" ? getSavedCurrency() : DEFAULT_CURRENCY)
+  })
   const [lentAt, setLentAt] = React.useState<Date | undefined>(new Date())
   const [dueDate, setDueDate] = React.useState<Date | undefined>(undefined)
   const [notes, setNotes] = React.useState("")
@@ -50,7 +53,7 @@ export function LendFormDialog({ children }: LendFormDialogProps) {
     setBorrowerName("")
     setBorrowerContact("")
     setAmount("")
-    setCurrency(DEFAULT_CURRENCY)
+    setCurrency(defaultCurrency || getSavedCurrency())
     setLentAt(new Date())
     setDueDate(undefined)
     setNotes("")
@@ -108,7 +111,11 @@ export function LendFormDialog({ children }: LendFormDialogProps) {
       open={open}
       onOpenChange={(val) => {
         setOpen(val)
-        if (!val) resetForm()
+        if (val) {
+          setCurrency(defaultCurrency || (typeof window !== "undefined" ? getSavedCurrency() : DEFAULT_CURRENCY))
+        } else {
+          resetForm()
+        }
       }}
     >
       <DialogTrigger
@@ -167,9 +174,9 @@ export function LendFormDialog({ children }: LendFormDialogProps) {
                 <Input
                   id="amount"
                   type="number"
-                  step="0.01"
-                  min="0.01"
-                  placeholder="0.00"
+                  step="any"
+                  min="1"
+                  placeholder="0"
                   required
                   value={amount}
                   onChange={(e) => setAmount(e.target.value)}
@@ -189,7 +196,10 @@ export function LendFormDialog({ children }: LendFormDialogProps) {
               <Select
                 value={currency}
                 onValueChange={(val) => {
-                  if (val) setCurrency(val)
+                  if (val) {
+                    setCurrency(val)
+                    saveCurrency(val)
+                  }
                 }}
                 disabled={loading}
               >
@@ -265,17 +275,17 @@ export function LendFormDialog({ children }: LendFormDialogProps) {
             <div className="flex items-center gap-2 pt-1 sm:col-span-2">
               <input
                 type="checkbox"
-                id="isPublic"
+                id="createIsPublic"
                 checked={isPublic}
                 onChange={(e) => setIsPublic(e.target.checked)}
                 disabled={loading}
-                className="size-3.5 rounded border-border text-primary focus:ring-ring"
+                className="size-3.5 rounded border-border text-primary focus:ring-ring cursor-pointer"
               />
               <Label
-                htmlFor="isPublic"
-                className="cursor-pointer text-xs font-normal text-muted-foreground"
+                htmlFor="createIsPublic"
+                className="cursor-pointer text-xs font-normal text-muted-foreground select-none"
               >
-                Enable public shareable link immediately
+                Enable public share link immediately
               </Label>
             </div>
           </div>

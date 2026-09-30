@@ -11,11 +11,15 @@ function ThemeProvider({
     if (process.env.NODE_ENV === "development") {
       const origError = console.error
       console.error = (...args: unknown[]) => {
+        const fullMessage = args
+          .map((a) => (typeof a === "string" ? a : String(a)))
+          .join(" ")
         if (
-          typeof args[0] === "string" &&
-          args[0].includes(
+          fullMessage.includes(
             "Encountered a script tag while rendering React component"
-          )
+          ) ||
+          fullMessage.includes("fill-rule") ||
+          fullMessage.includes("fillRule")
         ) {
           return
         }
@@ -67,11 +71,15 @@ function ThemeHotkey() {
         return
       }
 
-      if (event.key.toLowerCase() !== "d") {
+      if (isTypingTarget(event.target)) {
         return
       }
 
-      if (isTypingTarget(event.target)) {
+      if (!event.key || typeof event.key !== "string") {
+        return
+      }
+
+      if (event.key.toLowerCase() !== "d") {
         return
       }
 
