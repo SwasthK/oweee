@@ -16,7 +16,7 @@ export default function NotFound() {
           {/* Oweee Mascot */}
           <div className="flex size-20 items-center justify-center rounded-2xl border border-border/60 bg-card p-3 shadow-xs transition-transform hover:scale-105 hover:rotate-3">
             <Image
-              src="/logo/oweee-1.png"
+              src="/logo/oweee.png"
               alt="Oweee mascot"
               width={64}
               height={64}

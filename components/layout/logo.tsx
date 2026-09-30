@@ -35,7 +35,7 @@ export function Logo({
         )}
       >
         <Image
-          src="/logo/oweee-1.png"
+          src="/logo/oweee.png"
           alt="Oweee"
           width={current.img}
           height={current.img}

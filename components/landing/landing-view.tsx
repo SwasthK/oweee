@@ -91,7 +91,7 @@ export function LandingView() {
             className="flex size-20 items-center justify-center p-1 cursor-pointer select-none"
           >
             <Image
-              src="/logo/oweee-1.png"
+              src="/logo/oweee.png"
               alt="Oweee mascot"
               width={72}
               height={72}

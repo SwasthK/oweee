@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     template: "%s · Oweee",
   },
   description:
-    "A free, open-source personal lending tracker. Log loans, record partial repayments, keep an immutable audit trail, and share transparent payment links — no sign-up required for viewers.",
+    "An open-source personal lending tracker. Log loans, record partial repayments, keep an immutable audit trail, and share transparent payment links — no sign-up required for viewers.",
   keywords: [
     "lending tracker",
     "loan tracker",
@@ -48,7 +48,7 @@ export const metadata: Metadata = {
       "Free, open-source lending tracker with immutable audit trails and public share links.",
     images: [
       {
-        url: "/logo/oweee-1.png",
+        url: "/logo/oweee.png",
         width: 512,
         height: 512,
         alt: "Oweee — Personal Lending Tracker",
@@ -60,7 +60,7 @@ export const metadata: Metadata = {
     title: "Oweee — Track What Friends Owe You",
     description:
       "Free, open-source lending tracker with immutable audit trails and public share links.",
-    images: ["/logo/oweee-1.png"],
+    images: ["/logo/oweee.png"],
   },
   robots: {
     index: true,
@@ -74,9 +74,9 @@ export const metadata: Metadata = {
     },
   },
   icons: {
-    icon: "/logo/oweee-1.png",
-    shortcut: "/logo/oweee-1.png",
-    apple: "/logo/oweee-1.png",
+    icon: "/logo/oweee.png",
+    shortcut: "/logo/oweee.png",
+    apple: "/logo/oweee.png",
   },
 }
 
