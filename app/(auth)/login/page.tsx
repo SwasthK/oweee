@@ -6,7 +6,7 @@ import { auth } from "@/lib/auth"
 
 export const metadata: Metadata = {
   title: "Sign In - Oweee",
-  description: "Sign in to track your money lent to friends",
+  description: "Sign in with Google to track your money lent to friends",
 }
 
 export default async function LoginPage() {

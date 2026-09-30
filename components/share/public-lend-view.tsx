@@ -304,7 +304,7 @@ export function PublicLendView({ lend }: PublicLendViewProps) {
 
           <Button
             size="xs"
-            render={<Link href="/register" />}
+            render={<Link href="/login" />}
             className="shrink-0 text-xs"
           >
             Start for free
