@@ -5,8 +5,9 @@ import { redirect } from "next/navigation"
 import { auth } from "@/lib/auth"
 
 export const metadata: Metadata = {
-  title: "Sign In - Oweee",
-  description: "Sign in with Google to track your money lent to friends",
+  title: "Sign In",
+  description:
+    "Sign in with Google to start tracking money you've lent to friends. Free, private, and effortless.",
 }
 
 export default async function LoginPage() {

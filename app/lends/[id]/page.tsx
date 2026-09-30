@@ -20,14 +20,20 @@ export async function generateMetadata({
   })
 
   if (!session?.user) {
-    return { title: "Lend Details - Oweee" }
+    return {
+      title: "Lend Details",
+      description: "Sign in to view this lending record.",
+    }
   }
 
   const lend = await getLendById(id)
   return {
     title: lend
-      ? `${lend.borrowerName} (${formatMoney(lend.amount, lend.currency)}) - Oweee`
+      ? `${lend.borrowerName} (${formatMoney(lend.amount, lend.currency)})`
       : "Lend Details",
+    description: lend
+      ? `Lending record for ${lend.borrowerName} — ${formatMoney(lend.amount, lend.currency)} tracked on Oweee.`
+      : "View and manage a lending record on Oweee.",
   }
 }
 

@@ -192,7 +192,7 @@ export function LandingView() {
               </div>
               <div className="flex items-center gap-1.5 rounded-md border border-border/50 bg-background/70 px-3 py-0.5 text-[10px] text-muted-foreground">
                 <span className="size-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                <span className="font-mono">oweee.space/dashboard</span>
+                <span className="font-mono">oweee.app/dashboard</span>
               </div>
               <div className="w-14" />
             </div>

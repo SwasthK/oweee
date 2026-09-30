@@ -19,17 +19,29 @@ export async function generateMetadata({
 
   if (!lend) {
     return {
-      title: "Shared Lend Not Found - Oweee",
+      title: "Shared Lend Not Found",
       description:
-        "The shared lend record could not be found or is no longer public.",
+        "The shared lending record could not be found or is no longer public.",
     }
   }
 
   const remaining = Math.max(0, Number(lend.amount) - Number(lend.paidAmount))
+  const title = `Loan to ${lend.borrowerName} — ${formatMoney(remaining, lend.currency)} remaining`
+  const description = `Transparent lending record tracked on Oweee. Total: ${formatMoney(lend.amount, lend.currency)}, Remaining: ${formatMoney(remaining, lend.currency)}.`
 
   return {
-    title: `Loan to ${lend.borrowerName} (${formatMoney(remaining, lend.currency)} remaining) - Oweee`,
-    description: `Transparent lending record tracked on Oweee. Total: ${formatMoney(lend.amount, lend.currency)}`,
+    title,
+    description,
+    openGraph: {
+      title: `${title} · Oweee`,
+      description,
+      type: "website",
+    },
+    twitter: {
+      card: "summary",
+      title: `${title} · Oweee`,
+      description,
+    },
   }
 }
 

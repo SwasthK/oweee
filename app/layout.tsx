@@ -14,9 +14,65 @@ const fontMono = Geist_Mono({
   variable: "--font-mono",
 })
 
+const siteUrl = process.env.NEXT_PUBLIC_APP_URL || "https://oweee.app"
+
 export const metadata: Metadata = {
-  title: "Oweee - Personal Lending Tracker",
-  description: "Track money lent to friends with immutable activity logs, partial payments, and public links.",
+  metadataBase: new URL(siteUrl),
+  title: {
+    default: "Oweee — Track What Friends Owe You",
+    template: "%s · Oweee",
+  },
+  description:
+    "A free, open-source personal lending tracker. Log loans, record partial repayments, keep an immutable audit trail, and share transparent payment links — no sign-up required for viewers.",
+  keywords: [
+    "lending tracker",
+    "loan tracker",
+    "money tracker",
+    "debt tracker",
+    "split expenses",
+    "track money lent",
+    "personal finance",
+    "IOU tracker",
+    "friends owe me",
+    "open source",
+  ],
+  authors: [{ name: "Swasthik", url: "https://swasthk.space" }],
+  creator: "Swasthik",
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: siteUrl,
+    siteName: "Oweee",
+    title: "Oweee — Track What Friends Owe You",
+    description:
+      "Free, open-source lending tracker with immutable audit trails and public share links.",
+    images: [
+      {
+        url: "/logo/oweee-1.png",
+        width: 512,
+        height: 512,
+        alt: "Oweee — Personal Lending Tracker",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary",
+    title: "Oweee — Track What Friends Owe You",
+    description:
+      "Free, open-source lending tracker with immutable audit trails and public share links.",
+    images: ["/logo/oweee-1.png"],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
   icons: {
     icon: "/logo/oweee-1.png",
     shortcut: "/logo/oweee-1.png",
