@@ -117,7 +117,7 @@ export function LendCard({ lend, onRecordPayment }: LendCardProps) {
       tabIndex={0}
       onClick={handleCardClick}
       onKeyDown={handleKeyDown}
-      className="group relative cursor-pointer overflow-hidden border-border/70 bg-card/60 p-4 transition-all hover:border-foreground/30 hover:bg-card/90 hover:shadow-xs focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring"
+      className="group relative cursor-pointer overflow-hidden border-border/70 bg-card/60 p-4 transition-all hover:border-foreground/30 hover:bg-card/90 hover:shadow-xs focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-hidden"
     >
       <div className="flex flex-col gap-3">
         {/* Top Header Row */}
@@ -180,7 +180,8 @@ export function LendCard({ lend, onRecordPayment }: LendCardProps) {
           <div className="space-y-1">
             <div className="flex justify-between text-[11px]">
               <span className="text-muted-foreground">
-                {formatMoney(paidAmount, lend.currency)} paid ({progressPercent}%)
+                {formatMoney(paidAmount, lend.currency)} paid ({progressPercent}
+                %)
               </span>
               <span className="font-medium text-foreground">
                 {formatMoney(remaining, lend.currency)} left
@@ -238,7 +239,7 @@ export function LendCard({ lend, onRecordPayment }: LendCardProps) {
                   e.stopPropagation()
                   onRecordPayment(lend)
                 }}
-                className="h-6.5 rounded-md px-2 text-[11px] hover:border-foreground/30 cursor-pointer"
+                className="h-6.5 cursor-pointer rounded-md px-2 text-[11px] hover:border-foreground/30"
               >
                 Record Payment
               </Button>
@@ -256,7 +257,7 @@ export function LendCard({ lend, onRecordPayment }: LendCardProps) {
                       e.stopPropagation()
                       setShareOpen(true)
                     }}
-                    className="size-7 text-muted-foreground hover:text-foreground cursor-pointer"
+                    className="size-7 cursor-pointer text-muted-foreground hover:text-foreground"
                   >
                     <LinkIcon className="size-3.5" />
                   </Button>
@@ -278,7 +279,7 @@ export function LendCard({ lend, onRecordPayment }: LendCardProps) {
                       setDeleteOpen(true)
                     }}
                     disabled={isDeleting}
-                    className="size-7 text-muted-foreground hover:text-destructive cursor-pointer"
+                    className="size-7 cursor-pointer text-muted-foreground hover:text-destructive"
                   >
                     <TrashIcon className="size-3.5" />
                   </Button>
@@ -303,7 +304,8 @@ export function LendCard({ lend, onRecordPayment }: LendCardProps) {
             <AlertDialogDescription>
               Are you sure you want to delete the loan for{" "}
               <strong className="text-foreground">{lend.borrowerName}</strong>?
-              This record will be moved to deleted and hidden from your active dashboard.
+              This record will be moved to deleted and hidden from your active
+              dashboard.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>

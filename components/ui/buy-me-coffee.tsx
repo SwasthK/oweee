@@ -1,8 +1,7 @@
 import * as React from "react"
 import { cn } from "@/lib/utils"
 
-interface BuyMeCoffeeProps
-  extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
+interface BuyMeCoffeeProps extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
   slug?: string
   text?: string
 }
@@ -98,7 +97,7 @@ export function BuyMeCoffee({
           fill="#0D0C22"
         />
       </svg>
-      <span className="text-xl font-normal leading-none tracking-wide text-black">
+      <span className="text-xl leading-none font-normal tracking-wide text-black">
         {text}
       </span>
     </a>

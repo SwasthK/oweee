@@ -25,14 +25,23 @@ import {
 } from "@/components/ui/select"
 import { DatePicker } from "@/components/ui/date-picker"
 import { Spinner } from "@/components/ui/spinner"
-import { CURRENCIES, DEFAULT_CURRENCY, getCurrencySymbol, getSavedCurrency, saveCurrency } from "@/lib/currency"
+import {
+  CURRENCIES,
+  DEFAULT_CURRENCY,
+  getCurrencySymbol,
+  getSavedCurrency,
+  saveCurrency,
+} from "@/lib/currency"
 
 interface LendFormDialogProps {
   children?: React.ReactNode
   defaultCurrency?: string
 }
 
-export function LendFormDialog({ children, defaultCurrency }: LendFormDialogProps) {
+export function LendFormDialog({
+  children,
+  defaultCurrency,
+}: LendFormDialogProps) {
   const router = useRouter()
   const [open, setOpen] = React.useState(false)
   const [loading, setLoading] = React.useState(false)
@@ -42,7 +51,10 @@ export function LendFormDialog({ children, defaultCurrency }: LendFormDialogProp
   const [borrowerContact, setBorrowerContact] = React.useState("")
   const [amount, setAmount] = React.useState("")
   const [currency, setCurrency] = React.useState(() => {
-    return defaultCurrency || (typeof window !== "undefined" ? getSavedCurrency() : DEFAULT_CURRENCY)
+    return (
+      defaultCurrency ||
+      (typeof window !== "undefined" ? getSavedCurrency() : DEFAULT_CURRENCY)
+    )
   })
   const [lentAt, setLentAt] = React.useState<Date | undefined>(new Date())
   const [dueDate, setDueDate] = React.useState<Date | undefined>(undefined)
@@ -112,7 +124,12 @@ export function LendFormDialog({ children, defaultCurrency }: LendFormDialogProp
       onOpenChange={(val) => {
         setOpen(val)
         if (val) {
-          setCurrency(defaultCurrency || (typeof window !== "undefined" ? getSavedCurrency() : DEFAULT_CURRENCY))
+          setCurrency(
+            defaultCurrency ||
+              (typeof window !== "undefined"
+                ? getSavedCurrency()
+                : DEFAULT_CURRENCY)
+          )
         } else {
           resetForm()
         }
@@ -205,7 +222,8 @@ export function LendFormDialog({ children, defaultCurrency }: LendFormDialogProp
               >
                 <SelectTrigger id="currency" className="w-full text-xs">
                   <SelectValue placeholder="Select currency">
-                    {CURRENCIES.find((c) => c.code === currency)?.label || currency}
+                    {CURRENCIES.find((c) => c.code === currency)?.label ||
+                      currency}
                   </SelectValue>
                 </SelectTrigger>
                 <SelectContent className="max-h-60">
@@ -279,7 +297,7 @@ export function LendFormDialog({ children, defaultCurrency }: LendFormDialogProp
                 checked={isPublic}
                 onChange={(e) => setIsPublic(e.target.checked)}
                 disabled={loading}
-                className="size-3.5 rounded border-border text-primary focus:ring-ring cursor-pointer"
+                className="size-3.5 cursor-pointer rounded border-border text-primary focus:ring-ring"
               />
               <Label
                 htmlFor="createIsPublic"

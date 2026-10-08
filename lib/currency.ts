@@ -52,7 +52,9 @@ export function getSavedCurrency(): string {
     if (
       match &&
       match[1] &&
-      CURRENCIES.some((c) => c.code === decodeURIComponent(match[1]).toUpperCase())
+      CURRENCIES.some(
+        (c) => c.code === decodeURIComponent(match[1]).toUpperCase()
+      )
     ) {
       return decodeURIComponent(match[1]).toUpperCase()
     }

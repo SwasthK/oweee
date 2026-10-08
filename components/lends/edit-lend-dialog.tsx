@@ -25,7 +25,12 @@ import {
 } from "@/components/ui/select"
 import { DatePicker } from "@/components/ui/date-picker"
 import { Spinner } from "@/components/ui/spinner"
-import { CURRENCIES, DEFAULT_CURRENCY, getCurrencySymbol, saveCurrency } from "@/lib/currency"
+import {
+  CURRENCIES,
+  DEFAULT_CURRENCY,
+  getCurrencySymbol,
+  saveCurrency,
+} from "@/lib/currency"
 
 interface EditLendDialogProps {
   lend: Lend
@@ -54,7 +59,9 @@ function EditLendForm({
     const num = parseFloat(lend.amount)
     return !isNaN(num) && num % 1 === 0 ? num.toString() : lend.amount
   })
-  const [currency, setCurrency] = React.useState(lend.currency || DEFAULT_CURRENCY)
+  const [currency, setCurrency] = React.useState(
+    lend.currency || DEFAULT_CURRENCY
+  )
   const [dueDate, setDueDate] = React.useState<Date | undefined>(
     lend.dueDate ? new Date(lend.dueDate) : undefined
   )
@@ -167,7 +174,8 @@ function EditLendForm({
             >
               <SelectTrigger id="editCurrency" className="w-full text-xs">
                 <SelectValue placeholder="Select currency">
-                  {CURRENCIES.find((c) => c.code === currency)?.label || currency}
+                  {CURRENCIES.find((c) => c.code === currency)?.label ||
+                    currency}
                 </SelectValue>
               </SelectTrigger>
               <SelectContent className="max-h-60">
@@ -230,7 +238,7 @@ function EditLendForm({
             checked={isPublic}
             onChange={(e) => setIsPublic(e.target.checked)}
             disabled={loading}
-            className="size-3.5 rounded border-border text-primary focus:ring-ring cursor-pointer"
+            className="size-3.5 cursor-pointer rounded border-border text-primary focus:ring-ring"
           />
           <Label
             htmlFor="editIsPublic"

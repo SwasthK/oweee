@@ -20,7 +20,11 @@ import {
   ChevronLeftIcon,
   PencilIcon,
 } from "@/components/ui/icons"
-import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
 import { PaymentDialog } from "@/components/dashboard/payment-dialog"
 import { EditLendDialog } from "./edit-lend-dialog"
 import { ShareLendDialog } from "./share-lend-dialog"
@@ -143,7 +147,7 @@ export function LendDetailView({ lend }: LendDetailViewProps) {
             <span>Dashboard</span>
           </Link>
           <span className="text-muted-foreground/40">/</span>
-          <span className="font-semibold text-foreground truncate max-w-[200px] sm:max-w-xs">
+          <span className="max-w-[200px] truncate font-semibold text-foreground sm:max-w-xs">
             {lend.borrowerName}
           </span>
         </div>
@@ -154,7 +158,7 @@ export function LendDetailView({ lend }: LendDetailViewProps) {
             <Button
               size="sm"
               onClick={() => setPaymentOpen(true)}
-              className="gap-1.5 text-xs shadow-xs font-medium cursor-pointer"
+              className="cursor-pointer gap-1.5 text-xs font-medium shadow-xs"
             >
               <CreditCard className="size-3.5" />
               <span>Record Payment</span>
@@ -165,12 +169,12 @@ export function LendDetailView({ lend }: LendDetailViewProps) {
             variant="outline"
             size="sm"
             onClick={() => setShareOpen(true)}
-            className="gap-1.5 text-xs cursor-pointer"
+            className="cursor-pointer gap-1.5 text-xs"
           >
             <LinkIcon className="size-3.5" />
             <span>Share Link</span>
             {lend.isPublic && (
-              <span className="size-1.5 rounded-full bg-emerald-500 animate-pulse" />
+              <span className="size-1.5 animate-pulse rounded-full bg-emerald-500" />
             )}
           </Button>
 
@@ -178,7 +182,7 @@ export function LendDetailView({ lend }: LendDetailViewProps) {
             variant="outline"
             size="sm"
             onClick={() => setEditOpen(true)}
-            className="gap-1.5 text-xs cursor-pointer"
+            className="cursor-pointer gap-1.5 text-xs"
           >
             <PencilIcon className="size-3.5" />
             <span>Edit</span>
@@ -192,7 +196,7 @@ export function LendDetailView({ lend }: LendDetailViewProps) {
                   size="icon-xs"
                   onClick={() => setDeleteOpen(true)}
                   disabled={isDeleting}
-                  className="size-8 text-muted-foreground hover:text-destructive cursor-pointer"
+                  className="size-8 cursor-pointer text-muted-foreground hover:text-destructive"
                 >
                   <TrashIcon className="size-3.5" />
                 </Button>
@@ -207,14 +211,14 @@ export function LendDetailView({ lend }: LendDetailViewProps) {
       <div className="relative overflow-hidden rounded-2xl border border-border/80 bg-linear-to-b from-card to-card/60 p-6 shadow-xs backdrop-blur-xs">
         <div className="flex flex-col justify-between gap-6 sm:flex-row sm:items-center">
           {/* Left: Borrower Identity & Meta */}
-          <div className="flex items-start sm:items-center gap-4">
-            <div className="flex size-14 shrink-0 items-center justify-center rounded-2xl border border-border/80 bg-muted/80 font-heading text-lg font-bold tracking-tight text-foreground shadow-xs uppercase">
+          <div className="flex items-start gap-4 sm:items-center">
+            <div className="flex size-14 shrink-0 items-center justify-center rounded-2xl border border-border/80 bg-muted/80 font-heading text-lg font-bold tracking-tight text-foreground uppercase shadow-xs">
               {lend.borrowerName.slice(0, 2)}
             </div>
 
             <div className="space-y-1.5">
               <div className="flex flex-wrap items-center gap-2.5">
-                <h1 className="font-heading text-2xl sm:text-3xl font-bold tracking-tight text-foreground">
+                <h1 className="font-heading text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
                   {lend.borrowerName}
                 </h1>
 
@@ -222,28 +226,28 @@ export function LendDetailView({ lend }: LendDetailViewProps) {
                 {isClosed ? (
                   <Badge
                     variant="secondary"
-                    className="h-5.5 border-emerald-500/20 bg-emerald-500/10 px-2 text-xs font-medium text-emerald-600 dark:text-emerald-400 gap-1"
+                    className="h-5.5 gap-1 border-emerald-500/20 bg-emerald-500/10 px-2 text-xs font-medium text-emerald-600 dark:text-emerald-400"
                   >
                     <CheckCircle className="size-3" /> Settled
                   </Badge>
                 ) : isPartial ? (
                   <Badge
                     variant="outline"
-                    className="h-5.5 border-blue-500/20 bg-blue-500/10 px-2 text-xs font-medium text-blue-600 dark:text-blue-400 gap-1"
+                    className="h-5.5 gap-1 border-blue-500/20 bg-blue-500/10 px-2 text-xs font-medium text-blue-600 dark:text-blue-400"
                   >
                     <Clock className="size-3" /> Partially Repaid
                   </Badge>
                 ) : isOverdue ? (
                   <Badge
                     variant="destructive"
-                    className="h-5.5 px-2 text-xs font-medium gap-1"
+                    className="h-5.5 gap-1 px-2 text-xs font-medium"
                   >
                     <AlertTriangle className="size-3" /> Overdue
                   </Badge>
                 ) : (
                   <Badge
                     variant="outline"
-                    className="h-5.5 border-amber-500/20 bg-amber-500/10 px-2 text-xs font-medium text-amber-600 dark:text-amber-400 gap-1"
+                    className="h-5.5 gap-1 border-amber-500/20 bg-amber-500/10 px-2 text-xs font-medium text-amber-600 dark:text-amber-400"
                   >
                     <Clock className="size-3" /> Open
                   </Badge>
@@ -272,9 +276,9 @@ export function LendDetailView({ lend }: LendDetailViewProps) {
                     {dueDateInfo && (
                       <span
                         className={cn(
-                          "rounded-sm px-1.5 py-0.2 text-[10px]",
+                          "py-0.2 rounded-sm px-1.5 text-[10px]",
                           dueDateInfo.isOverdue
-                            ? "bg-destructive/10 text-destructive font-semibold"
+                            ? "bg-destructive/10 font-semibold text-destructive"
                             : "bg-muted text-muted-foreground"
                         )}
                       >
@@ -288,13 +292,13 @@ export function LendDetailView({ lend }: LendDetailViewProps) {
           </div>
 
           {/* Right: Balance Callout */}
-          <div className="flex flex-col sm:items-end justify-center rounded-xl sm:rounded-none bg-muted/40 sm:bg-transparent p-4 sm:p-0 border border-border/40 sm:border-none">
+          <div className="flex flex-col justify-center rounded-xl border border-border/40 bg-muted/40 p-4 sm:items-end sm:rounded-none sm:border-none sm:bg-transparent sm:p-0">
             <span className="text-[11px] font-medium tracking-wider text-muted-foreground uppercase">
               {isClosed ? "Final Status" : "Remaining Balance"}
             </span>
             <div
               className={cn(
-                "font-heading text-3xl sm:text-4xl font-extrabold tracking-tight",
+                "font-heading text-3xl font-extrabold tracking-tight sm:text-4xl",
                 isClosed ? "text-emerald-500" : "text-foreground"
               )}
             >
@@ -309,10 +313,12 @@ export function LendDetailView({ lend }: LendDetailViewProps) {
         </div>
 
         {/* Progress Strip */}
-        <div className="mt-5 border-t border-border/50 pt-4 space-y-2">
+        <div className="mt-5 space-y-2 border-t border-border/50 pt-4">
           <div className="flex flex-wrap items-center justify-between gap-2 text-xs">
             <div className="flex items-center gap-2">
-              <span className="font-medium text-foreground">Repayment Progress</span>
+              <span className="font-medium text-foreground">
+                Repayment Progress
+              </span>
               <span className="rounded-full bg-muted px-2 py-0.5 text-[11px] font-semibold text-foreground">
                 {progressPercent}%
               </span>
@@ -358,7 +364,7 @@ export function LendDetailView({ lend }: LendDetailViewProps) {
                   </p>
                 </div>
               </div>
-              <Badge variant="outline" className="text-[11px] font-mono">
+              <Badge variant="outline" className="font-mono text-[11px]">
                 {lend.auditLogs.length}{" "}
                 {lend.auditLogs.length === 1 ? "event" : "events"}
               </Badge>
@@ -396,7 +402,7 @@ export function LendDetailView({ lend }: LendDetailViewProps) {
 
               <Button
                 onClick={() => setPaymentOpen(true)}
-                className="mt-3.5 w-full gap-1.5 text-xs shadow-xs font-medium cursor-pointer"
+                className="mt-3.5 w-full cursor-pointer gap-1.5 text-xs font-medium shadow-xs"
               >
                 <CreditCard className="size-3.5" />
                 <span>Record Payment</span>
@@ -423,7 +429,7 @@ export function LendDetailView({ lend }: LendDetailViewProps) {
 
               {lend.isPublic ? (
                 <span className="inline-flex items-center gap-1 rounded-full bg-emerald-500/10 px-2 py-0.5 text-[10px] font-medium text-emerald-600 dark:text-emerald-400">
-                  <span className="size-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                  <span className="size-1.5 animate-pulse rounded-full bg-emerald-500" />
                   Live
                 </span>
               ) : (
@@ -433,18 +439,18 @@ export function LendDetailView({ lend }: LendDetailViewProps) {
               )}
             </div>
 
-            <p className="mt-3 text-xs text-muted-foreground leading-relaxed">
+            <p className="mt-3 text-xs leading-relaxed text-muted-foreground">
               {lend.isPublic
                 ? "Anyone with the link can view this loan and repayment history without logging in."
                 : "Sharing is disabled. Turn it on to give your friend a live link to this balance."}
             </p>
 
-            <div className="mt-4 pt-3 border-t border-border/50">
+            <div className="mt-4 border-t border-border/50 pt-3">
               <Button
                 variant="outline"
                 size="sm"
                 onClick={() => setShareOpen(true)}
-                className="w-full gap-1.5 text-xs cursor-pointer"
+                className="w-full cursor-pointer gap-1.5 text-xs"
               >
                 <LinkIcon className="size-3.5" />
                 <span>Manage Public Link</span>
@@ -463,13 +469,13 @@ export function LendDetailView({ lend }: LendDetailViewProps) {
                   variant="ghost"
                   size="xs"
                   onClick={() => setEditOpen(true)}
-                  className="h-6 text-[11px] text-muted-foreground hover:text-foreground cursor-pointer"
+                  className="h-6 cursor-pointer text-[11px] text-muted-foreground hover:text-foreground"
                 >
                   Edit
                 </Button>
               </div>
               <div className="pt-3">
-                <div className="rounded-xl border border-border/60 bg-muted/30 p-3.5 text-xs text-foreground/90 leading-relaxed italic">
+                <div className="rounded-xl border border-border/60 bg-muted/30 p-3.5 text-xs leading-relaxed text-foreground/90 italic">
                   &ldquo;{lend.notes}&rdquo;
                 </div>
               </div>
@@ -496,7 +502,8 @@ export function LendDetailView({ lend }: LendDetailViewProps) {
             <AlertDialogDescription>
               Are you sure you want to delete the loan for{" "}
               <strong className="text-foreground">{lend.borrowerName}</strong>?
-              This record will be moved to deleted and hidden from your active dashboard.
+              This record will be moved to deleted and hidden from your active
+              dashboard.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>

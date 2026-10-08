@@ -165,7 +165,9 @@ function AlertDialogCancel({
     <AlertDialogPrimitive.Close
       data-slot="alert-dialog-cancel"
       className={cn("cursor-pointer", className)}
-      render={<Button variant={variant} size={size} className="cursor-pointer" />}
+      render={
+        <Button variant={variant} size={size} className="cursor-pointer" />
+      }
       {...props}
     />
   )

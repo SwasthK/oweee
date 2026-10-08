@@ -6,7 +6,14 @@ import Image from "next/image"
 import { motion, type Variants } from "motion/react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { CoinStack, CheckCircle, Clock, Bank, CheckIcon, ShareIcon } from "@/components/ui/icons"
+import {
+  CoinStack,
+  CheckCircle,
+  Clock,
+  Bank,
+  CheckIcon,
+  ShareIcon,
+} from "@/components/ui/icons"
 import { BuyMeCoffee } from "@/components/ui/buy-me-coffee"
 import { Footer } from "@/components/layout/footer"
 
@@ -72,7 +79,10 @@ export function LandingView() {
         className="flex w-full flex-col items-center"
       >
         {/* Mascot + Status Pill */}
-        <motion.div variants={itemFadeUp} className="flex flex-col items-center gap-3">
+        <motion.div
+          variants={itemFadeUp}
+          className="flex flex-col items-center gap-3"
+        >
           <motion.div
             animate={{
               y: [0, -5, 0],
@@ -88,7 +98,7 @@ export function LandingView() {
               transition: { duration: 0.35, ease: easeCurve },
             }}
             whileTap={{ scale: 0.95 }}
-            className="flex size-20 items-center justify-center p-1 cursor-pointer select-none"
+            className="flex size-20 cursor-pointer items-center justify-center p-1 select-none"
           >
             <Image
               src="/logo/oweee.png"
@@ -122,9 +132,9 @@ export function LandingView() {
             </span>
           </h1>
           <p className="mx-auto max-w-xl text-sm leading-relaxed text-muted-foreground sm:text-base">
-            Log loans, record partial repayments, maintain an immutable
-            audit trail, and share single-item links without requiring
-            anyone to register.
+            Log loans, record partial repayments, maintain an immutable audit
+            trail, and share single-item links without requiring anyone to
+            register.
           </p>
         </motion.div>
 
@@ -161,23 +171,22 @@ export function LandingView() {
           className="mt-6 flex flex-wrap items-center justify-center gap-x-4 gap-y-1.5 text-[11px] text-muted-foreground"
         >
           <span className="flex items-center gap-1.5">
-            <CheckIcon className="size-3 text-emerald-500" /> No credit card needed
+            <CheckIcon className="size-3 text-emerald-500" /> No credit card
+            needed
           </span>
-          <span className="hidden sm:inline text-border">•</span>
+          <span className="hidden text-border sm:inline">•</span>
           <span className="flex items-center gap-1.5">
-            <CheckIcon className="size-3 text-emerald-500" /> Public sharing without sign-up
+            <CheckIcon className="size-3 text-emerald-500" /> Public sharing
+            without sign-up
           </span>
-          <span className="hidden sm:inline text-border">•</span>
+          <span className="hidden text-border sm:inline">•</span>
           <span className="flex items-center gap-1.5">
             <CheckIcon className="size-3 text-emerald-500" /> Free & Open source
           </span>
         </motion.div>
 
         {/* Aesthetic App Window Mockup */}
-        <motion.div
-          variants={itemFadeUp}
-          className="mt-6 w-full max-w-lg"
-        >
+        <motion.div variants={itemFadeUp} className="mt-6 w-full max-w-lg">
           <motion.div
             whileHover={{ y: -3 }}
             transition={{ duration: 0.3, ease: easeCurve }}
@@ -191,7 +200,7 @@ export function LandingView() {
                 <span className="size-2.5 rounded-full bg-emerald-500/80 transition-opacity hover:opacity-100" />
               </div>
               <div className="flex items-center gap-1.5 rounded-md border border-border/50 bg-background/70 px-3 py-0.5 text-[10px] text-muted-foreground">
-                <span className="size-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                <span className="size-1.5 animate-pulse rounded-full bg-emerald-500" />
                 <span className="font-mono">oweee.app/dashboard</span>
               </div>
               <div className="w-14" />
@@ -225,7 +234,7 @@ export function LandingView() {
                     </div>
                     <Badge
                       variant="outline"
-                      className="mt-0.5 h-4.5 px-1.5 text-[10px] text-amber-600 border-amber-500/30 bg-amber-500/10 dark:text-amber-400"
+                      className="mt-0.5 h-4.5 border-amber-500/30 bg-amber-500/10 px-1.5 text-[10px] text-amber-600 dark:text-amber-400"
                     >
                       <Clock className="mr-1 size-2.5" /> ₹50 left
                     </Badge>
@@ -236,14 +245,20 @@ export function LandingView() {
                 <div className="mt-3 space-y-1">
                   <div className="flex justify-between text-[10px] text-muted-foreground">
                     <span>Repayment Progress</span>
-                    <span className="font-medium text-foreground">₹70 of ₹120 (58%)</span>
+                    <span className="font-medium text-foreground">
+                      ₹70 of ₹120 (58%)
+                    </span>
                   </div>
                   <div className="h-1.5 w-full overflow-hidden rounded-full bg-muted">
                     <motion.div
                       className="h-full rounded-full bg-primary"
                       initial={{ width: "0%" }}
                       animate={{ width: "58%" }}
-                      transition={{ delay: 0.7, duration: 1.1, ease: easeCurve }}
+                      transition={{
+                        delay: 0.7,
+                        duration: 1.1,
+                        ease: easeCurve,
+                      }}
                     />
                   </div>
                 </div>
@@ -275,7 +290,7 @@ export function LandingView() {
                     </div>
                     <Badge
                       variant="secondary"
-                      className="mt-0.5 h-4.5 px-1.5 text-[10px] text-emerald-600 bg-emerald-500/10 dark:text-emerald-400 border-emerald-500/20"
+                      className="mt-0.5 h-4.5 border-emerald-500/20 bg-emerald-500/10 px-1.5 text-[10px] text-emerald-600 dark:text-emerald-400"
                     >
                       Settled
                     </Badge>
@@ -292,62 +307,71 @@ export function LandingView() {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-40px" }}
-          className="mt-12 grid w-full max-w-3xl grid-cols-1 gap-3.5 sm:grid-cols-3 text-left"
+          className="mt-12 grid w-full max-w-3xl grid-cols-1 gap-3.5 text-left sm:grid-cols-3"
         >
           <motion.div
             variants={featureItemVariants}
-            whileHover={{ y: -4, transition: { duration: 0.2, ease: easeCurve } }}
+            whileHover={{
+              y: -4,
+              transition: { duration: 0.2, ease: easeCurve },
+            }}
             className="group rounded-2xl border border-border/70 bg-card/60 p-4 shadow-2xs backdrop-blur-xs transition-colors hover:border-border hover:bg-card/90"
           >
-            <div className="flex size-8 items-center justify-center rounded-lg border border-primary/15 bg-primary/5 text-primary mb-3 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-[-4deg]">
+            <div className="mb-3 flex size-8 items-center justify-center rounded-lg border border-primary/15 bg-primary/5 text-primary transition-transform duration-300 group-hover:scale-110 group-hover:rotate-[-4deg]">
               <ShareIcon className="size-4" />
             </div>
             <h3 className="text-xs font-semibold text-foreground">
               Instant Public Links
             </h3>
             <p className="mt-1.5 text-[11px] leading-relaxed text-muted-foreground">
-              Share a dedicated read-only link for any lend. Your friend can see outstanding balance and history without signing up.
+              Share a dedicated read-only link for any lend. Your friend can see
+              outstanding balance and history without signing up.
             </p>
           </motion.div>
 
           <motion.div
             variants={featureItemVariants}
-            whileHover={{ y: -4, transition: { duration: 0.2, ease: easeCurve } }}
+            whileHover={{
+              y: -4,
+              transition: { duration: 0.2, ease: easeCurve },
+            }}
             className="group rounded-2xl border border-border/70 bg-card/60 p-4 shadow-2xs backdrop-blur-xs transition-colors hover:border-border hover:bg-card/90"
           >
-            <div className="flex size-8 items-center justify-center rounded-lg border border-primary/15 bg-primary/5 text-primary mb-3 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-[4deg]">
+            <div className="mb-3 flex size-8 items-center justify-center rounded-lg border border-primary/15 bg-primary/5 text-primary transition-transform duration-300 group-hover:scale-110 group-hover:rotate-[4deg]">
               <Clock className="size-4" />
             </div>
             <h3 className="text-xs font-semibold text-foreground">
               Partial Repayment Log
             </h3>
             <p className="mt-1.5 text-[11px] leading-relaxed text-muted-foreground">
-              Record installments as they happen with dates, amounts, and notes. Maintain an immutable audit timeline for clarity.
+              Record installments as they happen with dates, amounts, and notes.
+              Maintain an immutable audit timeline for clarity.
             </p>
           </motion.div>
 
           <motion.div
             variants={featureItemVariants}
-            whileHover={{ y: -4, transition: { duration: 0.2, ease: easeCurve } }}
+            whileHover={{
+              y: -4,
+              transition: { duration: 0.2, ease: easeCurve },
+            }}
             className="group rounded-2xl border border-border/70 bg-card/60 p-4 shadow-2xs backdrop-blur-xs transition-colors hover:border-border hover:bg-card/90"
           >
-            <div className="flex size-8 items-center justify-center rounded-lg border border-primary/15 bg-primary/5 text-primary mb-3 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-[-4deg]">
+            <div className="mb-3 flex size-8 items-center justify-center rounded-lg border border-primary/15 bg-primary/5 text-primary transition-transform duration-300 group-hover:scale-110 group-hover:rotate-[-4deg]">
               <CoinStack className="size-4" />
             </div>
             <h3 className="text-xs font-semibold text-foreground">
               Multi-Currency Support
             </h3>
             <p className="mt-1.5 text-[11px] leading-relaxed text-muted-foreground">
-              Seamlessly track in ₹ INR, $ USD, € EUR, £ GBP, and more with instant switching and auto-saved preferences.
+              Seamlessly track in ₹ INR, $ USD, € EUR, £ GBP, and more with
+              instant switching and auto-saved preferences.
             </p>
           </motion.div>
         </motion.div>
 
         {/* Front Screen Footer */}
-        <motion.div
-          variants={itemFadeUp}
-          className="w-full mt-14"
-        >
+        <motion.div variants={itemFadeUp} className="mt-14 w-full">
           <Footer />
         </motion.div>
       </motion.div>

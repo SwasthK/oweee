@@ -16,14 +16,19 @@ interface AuditTimelineProps {
   currency?: string
 }
 
-export function AuditTimeline({ logs, currency = DEFAULT_CURRENCY }: AuditTimelineProps) {
+export function AuditTimeline({
+  logs,
+  currency = DEFAULT_CURRENCY,
+}: AuditTimelineProps) {
   if (logs.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center rounded-xl border border-dashed border-border/70 py-8 text-center">
         <div className="flex size-9 items-center justify-center rounded-lg bg-muted text-muted-foreground">
           <Clipboard className="size-4" />
         </div>
-        <p className="mt-2 text-xs font-medium text-foreground">No activity recorded yet</p>
+        <p className="mt-2 text-xs font-medium text-foreground">
+          No activity recorded yet
+        </p>
         <p className="text-[11px] text-muted-foreground">
           Payments and changes will appear here automatically.
         </p>
@@ -171,19 +176,20 @@ export function AuditTimeline({ logs, currency = DEFAULT_CURRENCY }: AuditTimeli
                     </div>
                   )}
 
-                  {details.newStatus && details.previousStatus !== details.newStatus && (
-                    <p className="text-[11px] text-muted-foreground">
-                      Loan status transitioned from{" "}
-                      <span className="font-medium text-foreground capitalize">
-                        {details.previousStatus}
-                      </span>{" "}
-                      to{" "}
-                      <span className="font-semibold text-foreground capitalize">
-                        {details.newStatus}
-                      </span>
-                      .
-                    </p>
-                  )}
+                  {details.newStatus &&
+                    details.previousStatus !== details.newStatus && (
+                      <p className="text-[11px] text-muted-foreground">
+                        Loan status transitioned from{" "}
+                        <span className="font-medium text-foreground capitalize">
+                          {details.previousStatus}
+                        </span>{" "}
+                        to{" "}
+                        <span className="font-semibold text-foreground capitalize">
+                          {details.newStatus}
+                        </span>
+                        .
+                      </p>
+                    )}
                 </div>
               )}
 

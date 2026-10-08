@@ -24,7 +24,7 @@ export function Logo({
     <Link
       href="/"
       className={cn(
-        "group inline-flex items-center gap-2.5 select-none transition-opacity hover:opacity-90",
+        "group inline-flex items-center gap-2.5 transition-opacity select-none hover:opacity-90",
         className
       )}
     >

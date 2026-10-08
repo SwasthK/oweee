@@ -28,7 +28,7 @@ export function Navbar() {
                 aria-label="GitHub repository"
               />
             }
-            className="size-8 text-muted-foreground hover:text-foreground cursor-pointer"
+            className="size-8 cursor-pointer text-muted-foreground hover:text-foreground"
           >
             <GithubIcon className="size-4" />
           </Button>

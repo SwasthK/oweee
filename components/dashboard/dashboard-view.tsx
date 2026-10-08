@@ -2,7 +2,11 @@
 
 import * as React from "react"
 import { Lend, LendMetrics, CurrencyMetric } from "@/types/lend"
-import { DEFAULT_CURRENCY, getSavedCurrency, saveCurrency } from "@/lib/currency"
+import {
+  DEFAULT_CURRENCY,
+  getSavedCurrency,
+  saveCurrency,
+} from "@/lib/currency"
 import { MetricsOverview } from "./metrics-overview"
 import { FilterBar, StatusFilter } from "./filter-bar"
 import { LendCard } from "./lend-card"
@@ -25,7 +29,9 @@ export function DashboardView({
 }: DashboardViewProps) {
   const [statusFilter, setStatusFilter] = React.useState<StatusFilter>("open")
   const [currencyFilter, setCurrencyFilter] = React.useState<string>(
-    () => defaultCurrency || (typeof window !== "undefined" ? getSavedCurrency() : DEFAULT_CURRENCY)
+    () =>
+      defaultCurrency ||
+      (typeof window !== "undefined" ? getSavedCurrency() : DEFAULT_CURRENCY)
   )
   const [search, setSearch] = React.useState("")
   const [paymentLend, setPaymentLend] = React.useState<Lend | null>(null)
@@ -247,7 +253,7 @@ export function DashboardView({
                       variant="outline"
                       size="sm"
                       onClick={() => setStatusFilter("all")}
-                      className="text-xs cursor-pointer"
+                      className="cursor-pointer text-xs"
                     >
                       View in All ({searchMatches.length})
                     </Button>
@@ -255,7 +261,7 @@ export function DashboardView({
                       variant="ghost"
                       size="sm"
                       onClick={() => setSearch("")}
-                      className="text-xs cursor-pointer"
+                      className="cursor-pointer text-xs"
                     >
                       Clear search
                     </Button>
@@ -265,7 +271,7 @@ export function DashboardView({
                     variant="outline"
                     size="sm"
                     onClick={() => setSearch("")}
-                    className="text-xs cursor-pointer"
+                    className="cursor-pointer text-xs"
                   >
                     Clear search
                   </Button>
@@ -277,7 +283,7 @@ export function DashboardView({
                       variant="outline"
                       size="sm"
                       onClick={() => setStatusFilter("all")}
-                      className="text-xs cursor-pointer"
+                      className="cursor-pointer text-xs"
                     >
                       View All ({initialLends.length})
                     </Button>
@@ -287,7 +293,7 @@ export function DashboardView({
                       variant="ghost"
                       size="sm"
                       onClick={() => setCurrencyFilter("all")}
-                      className="text-xs cursor-pointer"
+                      className="cursor-pointer text-xs"
                     >
                       View All currencies
                     </Button>

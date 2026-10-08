@@ -34,7 +34,7 @@ export function LoginForm() {
   }
 
   return (
-    <Card className="w-full border-0 ring-0 ring-transparent shadow-none bg-card rounded-2xl">
+    <Card className="w-full rounded-2xl border-0 bg-card shadow-none ring-0 ring-transparent">
       <CardHeader className="space-y-1 pb-4 text-center">
         <CardTitle className="font-heading text-xl font-bold tracking-tight text-foreground">
           Welcome to Oweee
@@ -46,7 +46,7 @@ export function LoginForm() {
 
       <CardContent className="space-y-4">
         {error && (
-          <div className="flex items-center gap-2.5 rounded-xl border border-destructive/25 bg-destructive/10 p-3 text-xs text-destructive animate-in fade-in-50 duration-200">
+          <div className="flex animate-in items-center gap-2.5 rounded-xl border border-destructive/25 bg-destructive/10 p-3 text-xs text-destructive duration-200 fade-in-50">
             <AlertCircle className="size-4 shrink-0 text-destructive" />
             <span>{error}</span>
           </div>
@@ -55,7 +55,7 @@ export function LoginForm() {
         <Button
           type="button"
           variant="outline"
-          className="w-full h-10 text-xs font-semibold shadow-xs cursor-pointer gap-2.5"
+          className="h-10 w-full cursor-pointer gap-2.5 text-xs font-semibold shadow-xs"
           disabled={loading}
           onClick={handleGoogleSignIn}
         >
