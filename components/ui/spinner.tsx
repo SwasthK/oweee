@@ -21,10 +21,21 @@ export function Spinner({ className, size = "sm", ...props }: SpinnerProps) {
       stroke="currentColor"
       strokeLinecap="round"
       strokeLinejoin="round"
-      className={cn("animate-spin shrink-0 text-current", sizeClasses[size], className)}
+      className={cn(
+        "shrink-0 animate-spin text-current",
+        sizeClasses[size],
+        className
+      )}
       {...props}
     >
-      <circle className="opacity-20" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="3" />
+      <circle
+        className="opacity-20"
+        cx="12"
+        cy="12"
+        r="10"
+        stroke="currentColor"
+        strokeWidth="3"
+      />
       <path
         className="opacity-80"
         fill="currentColor"

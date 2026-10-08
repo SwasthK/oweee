@@ -10,12 +10,14 @@ import {
   Clock,
   Calendar,
   Clipboard,
+  CreditCard,
 } from "@/components/ui/icons"
 import { cn } from "@/lib/utils"
 import { ThemeToggle } from "@/components/layout/theme-toggle"
 import { Logo } from "@/components/layout/logo"
 import { useIsOverdue } from "@/hooks/use-is-overdue"
 import { formatMoney } from "@/lib/currency"
+import { UpiPayCard } from "@/components/share/upi-pay-card"
 
 import { AuditLogDetails } from "@/types/lend"
 
@@ -32,6 +34,7 @@ interface PublicLendViewProps {
     notes: string | null
     isPublic: boolean
     createdAt: Date
+    payment: { upiId: string; upiName: string | null } | null
     auditLogs: Array<{
       id: string
       action: string
@@ -69,13 +72,8 @@ export function PublicLendView({ lend }: PublicLendViewProps) {
       })
     : null
 
-  // Filter audit logs for public display (created and payments)
-  const publicActivity = lend.auditLogs.filter(
-    (log) =>
-      log.action === "created" ||
-      log.action === "payment_recorded" ||
-      log.action === "status_changed"
-  )
+  // Already filtered server-side to the actions safe to show publicly
+  const publicActivity = lend.auditLogs
 
   return (
     <div className="mx-auto w-full max-w-xl space-y-6 px-4 py-6">
@@ -182,6 +180,23 @@ export function PublicLendView({ lend }: PublicLendViewProps) {
           </div>
         </div>
 
+        {/* Payment Methods */}
+        {lend.payment && (
+          <div className="space-y-3">
+            <div className="flex items-center gap-1.5 text-xs font-semibold text-foreground">
+              <CreditCard className="size-3.5" />
+              <span>Payment Options</span>
+            </div>
+
+            <UpiPayCard
+              upiId={lend.payment.upiId}
+              upiName={lend.payment.upiName}
+              amount={remaining}
+              note={`Oweee repayment - ${lend.borrowerName}`}
+            />
+          </div>
+        )}
+
         {/* Due Date & Purpose */}
         <div className="space-y-2.5 border-t border-border/50 pt-4 text-xs">
           {formattedDueDate && (
@@ -228,7 +243,7 @@ export function PublicLendView({ lend }: PublicLendViewProps) {
               <span>Payment & Status History</span>
             </div>
 
-            <div className="space-y-2 max-h-[380px] overflow-y-auto pr-1">
+            <div className="max-h-[380px] space-y-2 overflow-y-auto pr-1">
               {publicActivity.map((log) => {
                 const details = log.details || {}
                 const date = new Date(log.createdAt).toLocaleDateString(
@@ -255,7 +270,11 @@ export function PublicLendView({ lend }: PublicLendViewProps) {
                       {log.action === "payment_recorded" && (
                         <div className="space-y-0.5">
                           <span className="font-medium text-emerald-600 dark:text-emerald-400">
-                            +{formatMoney(details.paymentAmount || 0, lend.currency)}{" "}
+                            +
+                            {formatMoney(
+                              details.paymentAmount || 0,
+                              lend.currency
+                            )}{" "}
                             payment logged
                           </span>
                           {details.note && (
@@ -264,6 +283,12 @@ export function PublicLendView({ lend }: PublicLendViewProps) {
                             </span>
                           )}
                         </div>
+                      )}
+                      {log.action === "updated" && (
+                        <span className="text-muted-foreground">
+                          Loan amount changed to{" "}
+                          {formatMoney(details.amount || 0, lend.currency)}
+                        </span>
                       )}
                       {log.action === "status_changed" && (
                         <span className="text-muted-foreground">

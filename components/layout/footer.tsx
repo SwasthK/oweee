@@ -6,13 +6,13 @@ export function Footer({ className }: { className?: string }) {
   return (
     <footer
       className={cn(
-        "flex flex-col items-center justify-center gap-2 text-xs text-muted-foreground pb-4 sm:flex-row sm:gap-3",
+        "flex flex-col items-center justify-center gap-2 pb-4 text-xs text-muted-foreground sm:flex-row sm:gap-3",
         className
       )}
     >
       <p className="flex items-center gap-1.5 text-[11px] text-muted-foreground">
         <span>Made with</span>
-        <HeartIcon className="size-3 text-rose-500 fill-rose-500 inline-block" />
+        <HeartIcon className="inline-block size-3 fill-rose-500 text-rose-500" />
         <span>by</span>
         <a
           href="http://swasthk.space/"

@@ -12,12 +12,12 @@ export default function AuthLayout({
   children: React.ReactNode
 }) {
   return (
-    <div className="relative min-h-svh flex flex-col justify-between bg-background">
+    <div className="relative flex min-h-svh flex-col justify-between bg-background">
       {/* Top Bar */}
       <header className="flex items-center justify-between px-4 py-4 sm:px-8">
         <Link
           href="/"
-          className="inline-flex items-center gap-1.5 text-xs text-muted-foreground transition-colors hover:text-foreground cursor-pointer"
+          className="inline-flex cursor-pointer items-center gap-1.5 text-xs text-muted-foreground transition-colors hover:text-foreground"
         >
           <ArrowLeft className="size-3.5" />
           <span>Back to home</span>

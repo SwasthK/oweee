@@ -14,10 +14,10 @@ export function LendDetailSkeleton() {
       </div>
 
       {/* Title & Status */}
-      <Card className="border-border/70 bg-card/60 p-6 space-y-3">
+      <Card className="space-y-3 border-border/70 bg-card/60 p-6">
         <div className="flex items-start justify-between gap-4">
           <div className="flex items-center gap-3">
-            <Skeleton className="size-11 rounded-full shrink-0" />
+            <Skeleton className="size-11 shrink-0 rounded-full" />
             <div className="space-y-2">
               <Skeleton className="h-6 w-48 rounded" />
               <Skeleton className="h-3.5 w-32 rounded" />
@@ -31,7 +31,7 @@ export function LendDetailSkeleton() {
       <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
         {/* Left Column: Summary */}
         <div className="space-y-4 md:col-span-1">
-          <Card className="border-border/70 bg-card/60 p-4 space-y-4">
+          <Card className="space-y-4 border-border/70 bg-card/60 p-4">
             <div className="space-y-2">
               <Skeleton className="h-3 w-16 rounded" />
               <Skeleton className="h-8 w-32 rounded" />
@@ -56,10 +56,10 @@ export function LendDetailSkeleton() {
             <Skeleton className="h-4 w-36 rounded" />
             <Skeleton className="h-3 w-20 rounded" />
           </div>
-          <Card className="border-border/70 bg-card/60 p-5 space-y-4">
+          <Card className="space-y-4 border-border/70 bg-card/60 p-5">
             {[1, 2, 3].map((i) => (
               <div key={i} className="flex gap-3">
-                <Skeleton className="size-6 rounded-full shrink-0" />
+                <Skeleton className="size-6 shrink-0 rounded-full" />
                 <div className="flex-1 space-y-1.5">
                   <div className="flex justify-between">
                     <Skeleton className="h-4 w-32 rounded" />

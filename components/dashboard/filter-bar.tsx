@@ -52,7 +52,7 @@ export function FilterBar({
   return (
     <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
       {/* Search Input */}
-      <div className="relative min-w-0 max-w-xs flex-1">
+      <div className="relative max-w-xs min-w-0 flex-1">
         <Input
           placeholder="Search by friend or notes..."
           value={search}

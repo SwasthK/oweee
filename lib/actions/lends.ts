@@ -1,10 +1,9 @@
 "use server"
 
-import { headers } from "next/headers"
 import { revalidatePath } from "next/cache"
 import { db } from "@/db"
 import { lends } from "@/db/schema"
-import { auth } from "@/lib/auth"
+import { getAuthUser } from "@/lib/auth-user"
 import { recordAuditLog, getAuditLogsForLend } from "./audit"
 import {
   createLendSchema,
@@ -26,18 +25,6 @@ import {
 } from "@/types/lend"
 import { DEFAULT_CURRENCY } from "@/lib/currency"
 import { and, desc, eq, ilike, isNull, or } from "drizzle-orm"
-
-async function getAuthUser() {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  })
-
-  if (!session?.user) {
-    throw new Error("You must be logged in to perform this action.")
-  }
-
-  return session.user
-}
 
 export async function getLends(filters?: {
   status?: string

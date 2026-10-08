@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Spinner } from "@/components/ui/spinner"
-import { User as UserIcon, Dashboard } from "@/components/ui/icons"
+import { User as UserIcon, Dashboard, CreditCard } from "@/components/ui/icons"
 
 export function UserMenu() {
   const router = useRouter()
@@ -52,7 +52,7 @@ export function UserMenu() {
         render={
           <button
             type="button"
-            className="group flex cursor-pointer items-center gap-2 rounded-full border border-border/70 bg-card/60 py-1 pr-2.5 pl-1 text-xs transition-colors hover:border-border hover:bg-muted/60 focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 outline-none"
+            className="group flex cursor-pointer items-center gap-2 rounded-full border border-border/70 bg-card/60 py-1 pr-2.5 pl-1 text-xs transition-colors outline-none hover:border-border hover:bg-muted/60 focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50"
           >
             <div className="flex size-6 items-center justify-center rounded-full bg-primary/10 text-[10px] font-semibold text-primary">
               {session.user.image ? (
@@ -82,7 +82,7 @@ export function UserMenu() {
               <p className="text-xs font-semibold text-foreground">
                 {session.user.name}
               </p>
-              <p className="text-[11px] text-muted-foreground truncate">
+              <p className="truncate text-[11px] text-muted-foreground">
                 {session.user.email}
               </p>
             </div>
@@ -94,9 +94,20 @@ export function UserMenu() {
         <DropdownMenuGroup>
           <DropdownMenuItem
             render={
-              <Link href="/" className="flex items-center gap-2 w-full text-xs">
+              <Link href="/" className="flex w-full items-center gap-2 text-xs">
                 <Dashboard className="size-3.5 text-muted-foreground" />
                 <span>Dashboard</span>
+              </Link>
+            }
+          />
+          <DropdownMenuItem
+            render={
+              <Link
+                href="/settings"
+                className="flex w-full items-center gap-2 text-xs"
+              >
+                <CreditCard className="size-3.5 text-muted-foreground" />
+                <span>Payment Methods</span>
               </Link>
             }
           />
@@ -104,9 +115,9 @@ export function UserMenu() {
 
         <DropdownMenuSeparator className="my-1" />
 
-        <div className="px-2 py-1 text-[11px] text-muted-foreground flex items-center justify-between">
+        <div className="flex items-center justify-between px-2 py-1 text-[11px] text-muted-foreground">
           <span>Theme toggle</span>
-          <kbd className="rounded border border-border px-1 py-0.5 text-[10px] font-mono">
+          <kbd className="rounded border border-border px-1 py-0.5 font-mono text-[10px]">
             d
           </kbd>
         </div>

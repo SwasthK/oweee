@@ -44,7 +44,9 @@ function PaymentForm({
   const formatPaymentInput = (val: number) =>
     val % 1 === 0 ? val.toString() : val.toFixed(2)
 
-  const [amount, setAmount] = React.useState(() => formatPaymentInput(remaining))
+  const [amount, setAmount] = React.useState(() =>
+    formatPaymentInput(remaining)
+  )
   const [note, setNote] = React.useState("")
 
   const handleSubmit = async (e: React.FormEvent) => {

@@ -39,7 +39,9 @@ export function ShareLendDialog({
   onOpenChange,
 }: ShareLendDialogProps) {
   const router = useRouter()
-  const [overridePublic, setOverridePublic] = React.useState<boolean | null>(null)
+  const [overridePublic, setOverridePublic] = React.useState<boolean | null>(
+    null
+  )
   const [prevProps, setPrevProps] = React.useState({
     id: lend.id,
     isPublic: lend.isPublic,
@@ -124,7 +126,7 @@ export function ShareLendDialog({
                 </span>
                 {isPublic && (
                   <span className="inline-flex items-center gap-1 rounded-full bg-emerald-500/10 px-2 py-0.5 text-[10px] font-medium text-emerald-600 dark:text-emerald-400">
-                    <span className="size-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                    <span className="size-1.5 animate-pulse rounded-full bg-emerald-500" />
                     Active
                   </span>
                 )}
@@ -143,7 +145,7 @@ export function ShareLendDialog({
               disabled={toggling}
               onClick={() => handleToggle(!isPublic)}
               className={cn(
-                "relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
+                "relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:outline-hidden disabled:cursor-not-allowed disabled:opacity-50",
                 isPublic ? "bg-primary" : "bg-muted-foreground/30"
               )}
             >
@@ -162,7 +164,9 @@ export function ShareLendDialog({
           {isPublic ? (
             <div className="space-y-2 rounded-xl border border-border/60 bg-card p-3.5">
               <div className="flex items-center justify-between text-xs">
-                <span className="font-medium text-foreground">Shareable URL</span>
+                <span className="font-medium text-foreground">
+                  Shareable URL
+                </span>
                 <a
                   href={shareUrl}
                   target="_blank"
@@ -178,13 +182,13 @@ export function ShareLendDialog({
                 <Input
                   readOnly
                   value={shareUrl}
-                  className="font-mono text-[11px] bg-muted/40 select-all"
+                  className="bg-muted/40 font-mono text-[11px] select-all"
                 />
                 <Button
                   type="button"
                   size="sm"
                   onClick={handleCopy}
-                  className="gap-1.5 shrink-0 text-xs cursor-pointer"
+                  className="shrink-0 cursor-pointer gap-1.5 text-xs"
                 >
                   {copied ? (
                     <>
@@ -211,7 +215,7 @@ export function ShareLendDialog({
                 size="sm"
                 disabled={toggling}
                 onClick={() => handleToggle(true)}
-                className="mt-3 gap-1.5 text-xs cursor-pointer"
+                className="mt-3 cursor-pointer gap-1.5 text-xs"
               >
                 {toggling ? (
                   <>
@@ -235,7 +239,7 @@ export function ShareLendDialog({
             variant="outline"
             size="sm"
             onClick={() => onOpenChange(false)}
-            className="text-xs cursor-pointer"
+            className="cursor-pointer text-xs"
           >
             Close
           </Button>

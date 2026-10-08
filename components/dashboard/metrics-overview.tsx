@@ -3,7 +3,11 @@
 import { LendMetrics } from "@/types/lend"
 import { Card } from "@/components/ui/card"
 import { CoinStack, CheckCircle, Clock } from "@/components/ui/icons"
-import { getCurrencySymbol, DEFAULT_CURRENCY, formatMoney } from "@/lib/currency"
+import {
+  getCurrencySymbol,
+  DEFAULT_CURRENCY,
+  formatMoney,
+} from "@/lib/currency"
 import { SettlementChart } from "./settlement-chart"
 import {
   Select,

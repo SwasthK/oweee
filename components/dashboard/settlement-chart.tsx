@@ -10,7 +10,11 @@ import {
 } from "@/components/ui/chart"
 import { Card } from "@/components/ui/card"
 import { ChartPie } from "@/components/ui/icons"
-import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
 import { LendMetrics } from "@/types/lend"
 import { getCurrencySymbol, DEFAULT_CURRENCY } from "@/lib/currency"
 import { cn } from "@/lib/utils"
@@ -66,7 +70,9 @@ export function SettlementChart({
   const totalCount = metrics.activeCount + metrics.closedCount
   const total = isAllCurrencies ? totalCount : metrics.totalLent
   const settled = isAllCurrencies ? metrics.closedCount : metrics.totalPaid
-  const pending = isAllCurrencies ? metrics.activeCount : metrics.totalOutstanding
+  const pending = isAllCurrencies
+    ? metrics.activeCount
+    : metrics.totalOutstanding
   const hasData = total > 0
   const settledPercent = hasData
     ? Math.min(100, Math.round((settled / total) * 100))
@@ -94,7 +100,13 @@ export function SettlementChart({
       ]
 
   const chartInner = (
-    <div className={cn("flex flex-col justify-between", variant === "card" ? "h-full w-full" : "w-full", className)}>
+    <div
+      className={cn(
+        "flex flex-col justify-between",
+        variant === "card" ? "h-full w-full" : "w-full",
+        className
+      )}
+    >
       {/* Header */}
       <div className="flex items-center justify-between text-xs text-muted-foreground">
         <Tooltip>
@@ -121,7 +133,7 @@ export function SettlementChart({
         {mounted ? (
           <ChartContainer
             config={chartConfig}
-            className="h-[76px] w-[76px] aspect-square"
+            className="aspect-square h-[76px] w-[76px]"
           >
             <PieChart margin={{ top: 0, right: 0, bottom: 0, left: 0 }}>
               {hasData && (
@@ -132,7 +144,7 @@ export function SettlementChart({
                       hideLabel
                       formatter={(value, name) => (
                         <div className="flex items-center gap-1.5 font-medium">
-                          <span className="capitalize text-muted-foreground">
+                          <span className="text-muted-foreground capitalize">
                             {name === "settled" ? "Settled:" : "Pending:"}
                           </span>
                           <span className="font-mono font-semibold text-foreground">
@@ -166,11 +178,15 @@ export function SettlementChart({
 
         {/* Center Percentage Display */}
         <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center text-center">
-          <span className="font-heading text-sm font-bold tracking-tight text-foreground leading-none">
+          <span className="font-heading text-sm leading-none font-bold tracking-tight text-foreground">
             {hasData ? `${settledPercent}%` : "0%"}
           </span>
-          <span className="text-[9px] font-medium text-muted-foreground leading-tight mt-0.5">
-            {hasData ? (isAllCurrencies ? `${settled}/${total}` : "Settled") : "No lends"}
+          <span className="mt-0.5 text-[9px] leading-tight font-medium text-muted-foreground">
+            {hasData
+              ? isAllCurrencies
+                ? `${settled}/${total}`
+                : "Settled"
+              : "No lends"}
           </span>
         </div>
       </div>
@@ -178,11 +194,11 @@ export function SettlementChart({
       {/* Legend Footer */}
       <div className="flex items-center justify-center gap-3 text-[11px] text-muted-foreground">
         <div className="flex items-center gap-1">
-          <span className="size-1.5 rounded-full bg-emerald-500 shrink-0" />
+          <span className="size-1.5 shrink-0 rounded-full bg-emerald-500" />
           <span>Settled</span>
         </div>
         <div className="flex items-center gap-1">
-          <span className="size-1.5 rounded-full bg-amber-500 shrink-0" />
+          <span className="size-1.5 shrink-0 rounded-full bg-amber-500" />
           <span>Pending</span>
         </div>
       </div>

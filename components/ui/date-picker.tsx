@@ -41,7 +41,7 @@ export function DatePicker({
             type="button"
             disabled={disabled}
             className={cn(
-              "flex h-9 w-full items-center justify-between rounded-4xl border border-input bg-input/30 px-3 py-1 text-xs outline-none cursor-pointer transition-colors focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50 dark:hover:bg-input/50",
+              "flex h-9 w-full cursor-pointer items-center justify-between rounded-4xl border border-input bg-input/30 px-3 py-1 text-xs transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50 dark:hover:bg-input/50",
               !date && "text-muted-foreground",
               className
             )}
@@ -64,7 +64,7 @@ export function DatePicker({
                     setDate(undefined)
                   }
                 }}
-                className="ml-1 flex size-4 items-center justify-center rounded-full text-xs font-semibold text-muted-foreground hover:bg-muted hover:text-foreground cursor-pointer"
+                className="ml-1 flex size-4 cursor-pointer items-center justify-center rounded-full text-xs font-semibold text-muted-foreground hover:bg-muted hover:text-foreground"
                 title="Clear date"
               >
                 ×
@@ -73,7 +73,10 @@ export function DatePicker({
           </button>
         }
       />
-      <PopoverContent className="w-auto p-0 border-border/80 shadow-xl" align="start">
+      <PopoverContent
+        className="w-auto border-border/80 p-0 shadow-xl"
+        align="start"
+      >
         <Calendar
           mode="single"
           selected={date ?? undefined}
